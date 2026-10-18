@@ -15,6 +15,8 @@ interface AppContextType {
   clearCart: () => void;
   toggleFavorite: (numberId: string) => void;
   isFavorite: (numberId: string) => boolean;
+  isSideDashboardOpen: boolean;
+  setIsSideDashboardOpen: (open: boolean) => void;
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
   isWishlistOpen: boolean;
@@ -52,6 +54,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   });
 
+  const [isSideDashboardOpen, setIsSideDashboardOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isLowestPriceModalOpen, setIsLowestPriceModalOpen] = useState(false);
@@ -142,6 +145,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         clearCart,
         toggleFavorite,
         isFavorite,
+        isSideDashboardOpen,
+        setIsSideDashboardOpen,
         isCartOpen,
         setIsCartOpen,
         isWishlistOpen,

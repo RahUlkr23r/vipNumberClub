@@ -3,8 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
 export const Header: React.FC = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { cart, favorites, setIsCartOpen, setIsWishlistOpen, setIsLowestPriceModalOpen, setIsLuckyCalcModalOpen } = useApp();
+  const {
+    cart,
+    favorites,
+    setIsCartOpen,
+    setIsWishlistOpen,
+    setIsLowestPriceModalOpen,
+    setIsSideDashboardOpen
+  } = useApp();
   const location = useLocation();
 
   return (
@@ -98,9 +104,10 @@ export const Header: React.FC = () => {
             <div className="header-l d-flex align-items-center">
               <button
                 type="button"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                onClick={() => setIsSideDashboardOpen(true)}
                 className="header-l-menuic bg-transparent border-0 p-0 me-3 cursor-pointer"
-                aria-label="Toggle menu"
+                aria-label="Open VIP Side Dashboard"
+                title="VIP Side Dashboard"
               >
                 <img src="https://www.vipnumbersclub.com/assets/front/img/menu-ic.svg" alt="Menu" />
               </button>
@@ -192,167 +199,6 @@ export const Header: React.FC = () => {
             </div>
           </div>
         </div>
-
-        {/* 3. MOBILE MENU SLIDE-OUT DRAWER */}
-        {isMobileMenuOpen && (
-          <div className="mobile-menu d-block position-fixed top-0 start-0 w-100 h-100 bg-dark-pure" style={{ zIndex: 2000, overflowY: 'auto' }}>
-            <div className="menu-inner p-4" style={{ maxWidth: '400px' }}>
-              <div className="menu-header d-flex align-items-center justify-content-between pb-3 border-bottom border-secondary mb-4">
-                <div className="login-btn-wrap d-flex align-items-center gap-2">
-                  <div className="user-ic">
-                    <img src="https://www.vipnumbersclub.com/assets/front/img/avatar.svg" alt="User Icon" />
-                  </div>
-                  <a
-                    href="https://wa.me/9111117777?text=Hello%20VIP%20Numbers%20Club"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn_primary btn-sm d-inline-flex align-items-center gap-2"
-                  >
-                    <span>Login / Chat</span>
-                    <span className="arrow-ic">
-                      <img src="https://www.vipnumbersclub.com/assets/front/img/btn-arrow.svg" alt="arrow" />
-                    </span>
-                  </a>
-                </div>
-
-                <div className="close-wrap">
-                  <button
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="close-btn border-0 bg-transparent p-1"
-                    aria-label="Close menu"
-                  >
-                    <img src="https://www.vipnumbersclub.com/assets/front/img/close.svg" alt="Close" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="menu-list">
-                <ul className="list-unstyled space-y-2">
-                  <li className="mb-2">
-                    <Link
-                      to="/search-results?category=super-sale-zone"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon icon-eff"><img src="https://www.vipnumbersclub.com/assets/front/img/super-high.svg" alt="" /></span>
-                      <span>Super High Discounted Deals</span>
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/contact-us"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic1.svg" alt="" /></span>
-                      <span>My Account / Support</span>
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/services"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon icon-eff"><img src="https://www.vipnumbersclub.com/assets/front/img/reseller.svg" alt="" /></span>
-                      <span>Reseller Panel & Bulk</span>
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/clientele"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic2.svg" alt="" /></span>
-                      <span>Clientele</span>
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/search-results"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic3.svg" alt="" /></span>
-                      <span>Pre Booking</span>
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/home-delivery"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic4.svg" alt="" /></span>
-                      <span>Home Delivery (COD)</span>
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/process"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic6.svg" alt="" /></span>
-                      <span>Activation Process</span>
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/services"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic8.svg" alt="" /></span>
-                      <span>Services</span>
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/contact-us"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic9.svg" alt="" /></span>
-                      <span>Contact Us</span>
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/about-us"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic10.svg" alt="" /></span>
-                      <span>About Us</span>
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/refund-policy"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic11.svg" alt="" /></span>
-                      <span>Refund Policy</span>
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
-                      to="/general-doubts"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
-                    >
-                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic12.svg" alt="" /></span>
-                      <span>General Doubts (FAQ)</span>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        )}
       </section>
     </>
   );

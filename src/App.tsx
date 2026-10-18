@@ -6,6 +6,7 @@ import { Footer } from './components/Footer';
 import { FloatingActions } from './components/FloatingActions';
 import { CartDrawer } from './components/CartDrawer';
 import { WishlistDrawer } from './components/WishlistDrawer';
+import { SideDashboard } from './components/SideDashboard';
 import { LowestPriceModal } from './components/LowestPriceModal';
 import { LuckyNumberModal } from './components/LuckyNumberModal';
 import { BookingModal } from './components/BookingModal';
@@ -66,6 +67,7 @@ export const App: React.FC = () => {
           </main>
 
           {/* Global Modals & Drawers */}
+          <SideDashboard />
           <CartDrawer />
           <WishlistDrawer />
           <LowestPriceModal />
