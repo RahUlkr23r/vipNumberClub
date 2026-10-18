@@ -1,286 +1,359 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { SITE_INFO } from '../data/siteInfo';
-import { 
-  Search, 
-  ShoppingCart, 
-  Heart, 
-  Sparkles, 
-  Menu, 
-  X, 
-  Phone, 
-  ShieldCheck, 
-  Truck, 
-  ArrowRight,
-  ExternalLink,
-  MessageCircle
-} from 'lucide-react';
 
 export const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cart, favorites, setIsCartOpen, setIsWishlistOpen, setIsLowestPriceModalOpen, setIsLuckyCalcModalOpen } = useApp();
   const location = useLocation();
 
-  const navLinks = [
-    { label: 'Home', path: '/' },
-    { label: 'Browse Numbers', path: '/search-results' },
-    { label: 'Numerology Search', path: '/numerology-search' },
-    { label: 'Activation Process', path: '/process' },
-    { label: 'Prepaid / Postpaid', path: '/prepaid-postpaid' },
-    { label: 'Home Delivery', path: '/home-delivery' },
-    { label: 'Clientele', path: '/clientele' },
-    { label: 'About Us', path: '/about-us' },
-    { label: 'FAQ', path: '/general-doubts' },
-    { label: 'Contact', path: '/contact-us' },
-  ];
-
-  const isActive = (path: string) => {
-    if (path === '/' && location.pathname === '/') return true;
-    if (path !== '/' && location.pathname.startsWith(path)) return true;
-    return false;
-  };
-
   return (
-    <header className="sticky top-0 z-40 w-full bg-dark-pure/90 backdrop-blur-md border-b border-dark-border/60 transition-all duration-200">
-      {/* Top Value Proposition Bar */}
-      <div className="bg-gradient-to-r from-dark-surface via-dark-card to-dark-surface border-b border-dark-border/40 py-1.5 px-4 text-xs">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4 overflow-x-auto no-scrollbar py-0.5">
-            <button
-              onClick={() => setIsLowestPriceModalOpen(true)}
-              className="inline-flex items-center gap-1.5 text-gold hover:text-gold-light font-medium whitespace-nowrap transition-colors"
-            >
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Lowest Price Challenge</span>
-              <span className="hidden sm:inline text-white/50">• We beat any price</span>
-            </button>
-            <span className="text-white/20 hidden sm:inline">|</span>
-            <Link
-              to="/home-delivery"
-              className="inline-flex items-center gap-1.5 text-white/80 hover:text-white whitespace-nowrap transition-colors"
-            >
-              <Truck className="w-3.5 h-3.5 text-gold" />
-              <span>Doorstep Delivery (COD Available)</span>
-            </Link>
-            <span className="text-white/20 hidden md:inline">|</span>
-            <span className="hidden md:inline-flex items-center gap-1.5 text-white/70">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>100% Money-Back Guarantee Until Activation</span>
-            </span>
-          </div>
-
-          <div className="hidden lg:flex items-center gap-4 shrink-0 text-white/80">
-            <a
-              href={`tel:${SITE_INFO.phoneRaw}`}
-              className="inline-flex items-center gap-1 hover:text-gold transition-colors font-medium"
-            >
-              <Phone className="w-3.5 h-3.5 text-gold" />
-              <span>24/7 Helpline: {SITE_INFO.phone}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-4">
-          {/* Brand Logo & Tagline */}
-          <Link to="/" className="flex items-center gap-3 group shrink-0">
-            <img
-              src={SITE_INFO.assets.logo}
-              alt={SITE_INFO.name}
-              className="h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
-            />
-            <div className="flex flex-col">
-              <span className="text-lg sm:text-xl font-bold tracking-tight text-white group-hover:text-gold transition-colors leading-tight">
-                VIP Numbers <span className="text-gold">club</span>
-              </span>
-              <span className="text-[10px] sm:text-[11px] text-white/60 tracking-wider uppercase font-medium">
-                {SITE_INFO.tagline}
-              </span>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation Links */}
-          <nav className="hidden xl:flex items-center gap-1 text-sm font-medium">
-            {navLinks.slice(0, 7).map(link => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`px-3 py-2 rounded-lg transition-all duration-150 ${
-                  isActive(link.path)
-                    ? 'text-gold bg-gold/10 font-semibold'
-                    : 'text-white/80 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Action Icons & CTA */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Search Button */}
-            <Link
-              to="/search-results"
-              className="p-2 sm:p-2.5 rounded-xl text-white/80 hover:text-white hover:bg-white/5 border border-transparent hover:border-dark-border transition-all"
-              title="Search VIP Numbers"
-              aria-label="Search"
-            >
-              <Search className="w-5 h-5 text-gold" />
-            </Link>
-
-            {/* Lucky Numerology Calculator */}
-            <button
-              onClick={() => setIsLuckyCalcModalOpen(true)}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-dark-card hover:bg-dark-elevated text-gold border border-gold/30 hover:border-gold transition-all shadow-sm"
-              title="Find your numerology lucky number"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Lucky Calc</span>
-            </button>
-
-            {/* Wishlist Button */}
-            <button
-              onClick={() => setIsWishlistOpen(true)}
-              className="relative p-2 sm:p-2.5 rounded-xl text-white/80 hover:text-white hover:bg-white/5 border border-transparent hover:border-dark-border transition-all"
-              title="View Favorites"
-              aria-label="Wishlist"
-            >
-              <Heart className="w-5 h-5" />
-              {favorites.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-dark-pure font-bold text-xs rounded-full flex items-center justify-center animate-fade-in shadow-gold-sm">
-                  {favorites.length}
-                </span>
-              )}
-            </button>
-
-            {/* Cart Button */}
-            <button
-              onClick={() => setIsCartOpen(true)}
-              className="relative p-2 sm:p-2.5 rounded-xl text-white/80 hover:text-white hover:bg-white/5 border border-transparent hover:border-dark-border transition-all"
-              title="Shopping Cart"
-              aria-label="Cart"
-            >
-              <ShoppingCart className="w-5 h-5" />
-              {cart.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white font-bold text-xs rounded-full flex items-center justify-center animate-fade-in">
-                  {cart.length}
-                </span>
-              )}
-            </button>
-
-            {/* Direct WhatsApp Action Button */}
-            <a
-              href={`https://wa.me/${SITE_INFO.phoneRaw}?text=${encodeURIComponent('Hello VIP Numbers Club, I want to inquire about VIP numbers.')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-semibold text-xs tracking-wide shadow-lg shadow-emerald-900/30 transition-all hover:scale-105"
-            >
-              <MessageCircle className="w-4 h-4 fill-white" />
-              <span>WhatsApp</span>
-            </a>
-
-            {/* Mobile Hamburger Toggle */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="xl:hidden p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/5 border border-dark-border transition-colors"
-              aria-label="Toggle mobile menu"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Menu */}
-      {isMobileMenuOpen && (
-        <div className="xl:hidden fixed inset-x-0 top-[113px] bottom-0 bg-dark-pure/95 backdrop-blur-xl border-t border-dark-border z-50 overflow-y-auto animate-fadeIn">
-          <div className="p-6 space-y-6 max-w-md mx-auto">
-            {/* Quick Action Pills inside mobile drawer */}
-            <div className="grid grid-cols-2 gap-3">
+    <>
+      {/* 1. TOP VIPCAT SECTION (Horizontal bar with icons) */}
+      <section className="vipcat">
+        <div className="container">
+          <div className="vipcat-in">
+            <div className="item">
               <button
-                onClick={() => {
-                  setIsLuckyCalcModalOpen(true);
-                  setIsMobileMenuOpen(false);
-                }}
-                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gold/10 border border-gold/30 text-gold text-sm font-semibold hover:bg-gold/20 transition-colors"
+                type="button"
+                onClick={() => setIsLowestPriceModalOpen(true)}
+                className="vipcat-itm border-0 bg-transparent text-white"
               >
-                <Sparkles className="w-4 h-4" />
-                <span>Lucky Calc</span>
-              </button>
-              <button
-                onClick={() => {
-                  setIsLowestPriceModalOpen(true);
-                  setIsMobileMenuOpen(false);
-                }}
-                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-dark-card border border-dark-border text-white text-sm font-medium hover:bg-dark-hover transition-colors"
-              >
-                <ShieldCheck className="w-4 h-4 text-gold" />
-                <span>Price Match</span>
-              </button>
-            </div>
-
-            {/* Navigation links */}
-            <nav className="flex flex-col space-y-1">
-              {navLinks.map(link => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center justify-between px-4 py-3 rounded-xl text-base transition-colors ${
-                    isActive(link.path)
-                      ? 'bg-gold/15 text-gold font-semibold'
-                      : 'text-white/80 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  <ArrowRight className="w-4 h-4 text-white/30" />
-                </Link>
-              ))}
-              <Link
-                to="/services"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-between px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/5 text-base"
-              >
-                <span>Services</span>
-                <ArrowRight className="w-4 h-4 text-white/30" />
-              </Link>
-              <Link
-                to="/refund-policy"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-between px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/5 text-base"
-              >
-                <span>Refund Policy</span>
-                <ArrowRight className="w-4 h-4 text-white/30" />
-              </Link>
-            </nav>
-
-            {/* Contact Card in mobile menu */}
-            <div className="p-4 rounded-2xl bg-dark-card border border-dark-border space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center text-gold">
-                  <Phone className="w-5 h-5" />
+                <div className="vipcat-itm-ic">
+                  <img src="https://www.vipnumbersclub.com/assets/front/img/head-top-ic1.svg" alt="Lowest Price" />
                 </div>
-                <div>
-                  <div className="text-xs text-white/60">Executive Contact</div>
-                  <div className="text-sm font-bold text-white">{SITE_INFO.leadContact} — {SITE_INFO.phone}</div>
+                <div className="vipcat-itm-nm">Lowest Price <span>Challange</span></div>
+              </button>
+            </div>
+
+            <div className="item">
+              <Link to="/home-delivery" className="vipcat-itm">
+                <div className="vipcat-itm-ic">
+                  <img src="https://www.vipnumbersclub.com/assets/front/img/head-top-ic2.svg" alt="Home Delivery" />
+                </div>
+                <div className="vipcat-itm-nm">Home <span>Delivery</span></div>
+              </Link>
+            </div>
+
+            <div className="item">
+              <Link to="/prepaid-postpaid" className="vipcat-itm">
+                <div className="vipcat-itm-ic">
+                  <img src="https://www.vipnumbersclub.com/assets/front/img/head-top-ic3.svg" alt="Pre/Post" />
+                </div>
+                <div className="vipcat-itm-nm">PRE/POST <span>Info</span></div>
+              </Link>
+            </div>
+
+            <div className="item">
+              <Link to="/process" className="vipcat-itm">
+                <div className="vipcat-itm-ic">
+                  <img src="https://www.vipnumbersclub.com/assets/front/img/head-top-ic4.svg" alt="Process" />
+                </div>
+                <div className="vipcat-itm-nm">Activation <span>Process</span></div>
+              </Link>
+            </div>
+
+            <div className="item">
+              <button
+                type="button"
+                onClick={() => {
+                  navigator.clipboard?.writeText(window.location.origin);
+                  alert('Website link copied to clipboard!');
+                }}
+                className="vipcat-itm border-0 bg-transparent text-white"
+              >
+                <div className="vipcat-itm-ic">
+                  <img src="https://www.vipnumbersclub.com/assets/front/img/head-top-ic5.svg" alt="Share" />
+                </div>
+                <div className="vipcat-itm-nm">Share <span>Website Link</span></div>
+              </button>
+            </div>
+
+            <div className="item">
+              <Link to="/search-results" className="vipcat-itm">
+                <div className="vipcat-itm-ic">
+                  <img src="https://www.vipnumbersclub.com/assets/front/img/head-top-ic6.svg" alt="Add to Home" />
+                </div>
+                <div className="vipcat-itm-nm">Add to <span>Home Screen</span></div>
+              </Link>
+            </div>
+
+            <div className="item">
+              <Link to="/search-results" className="vipcat-itm">
+                <div className="vipcat-itm-ic">
+                  <img src="https://www.vipnumbersclub.com/assets/front/img/head-top-ic7.svg" alt="All Categories" />
+                </div>
+                <div className="vipcat-itm-nm">All <span>Categories</span></div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. MAIN HEADER SECTION (.header-sec) */}
+      <section className="header-sec sticky-top" style={{ zIndex: 1020 }}>
+        <div className="container">
+          <div className="header-sec-in d-flex align-items-center justify-content-between">
+            {/* Left: Hamburger & Brand Logo */}
+            <div className="header-l d-flex align-items-center">
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="header-l-menuic bg-transparent border-0 p-0 me-3 cursor-pointer"
+                aria-label="Toggle menu"
+              >
+                <img src="https://www.vipnumbersclub.com/assets/front/img/menu-ic.svg" alt="Menu" />
+              </button>
+
+              <Link to="/" className="header-l-logo d-flex align-items-center text-decoration-none">
+                <img
+                  src="https://www.vipnumbersclub.com/uploads/settings/Ic5BHdi9XfWg71O19MdZ.png"
+                  alt="VIP Numbers club"
+                  className="brand-logo-img"
+                />
+                <div className="brand-info ms-2">
+                  <span className="brand-name">VIP Numbers club</span>
+                  <span className="brand-tagline">India's Biggest VIP Number Provider</span>
+                </div>
+              </Link>
+            </div>
+
+            {/* Right: Quick action icons */}
+            <div className="header-r d-flex align-items-center gap-3">
+              {/* Click directory modal icon */}
+              <button
+                type="button"
+                onClick={() => setIsLowestPriceModalOpen(true)}
+                className="header-r-itm menu-hide-itm border-0 bg-transparent p-0"
+                title="Lowest Price"
+              >
+                <img src="https://www.vipnumbersclub.com/assets/front/img/menu-click-ic.svg" alt="Click" />
+              </button>
+
+              {/* Numerology icon */}
+              <Link
+                to="/numerology-search"
+                className="header-r-itm menu-hide-itm text-decoration-none"
+                title="Numerology Search"
+              >
+                <img src="https://www.vipnumbersclub.com/assets/front/img/menu-astrology-ic.svg" alt="Numerology" />
+              </Link>
+
+              {/* Favorites icon */}
+              <button
+                type="button"
+                onClick={() => setIsWishlistOpen(true)}
+                className="header-r-itm menu-hide-itm border-0 bg-transparent p-0 position-relative"
+                title="Favorites"
+              >
+                <img src="https://www.vipnumbersclub.com/assets/front/img/menu-fav-ic.svg" alt="Favorites" />
+                {favorites.length > 0 && (
+                  <span className="cart-count">{favorites.length}</span>
+                )}
+              </button>
+
+              {/* Video/Process icon */}
+              <Link
+                to="/process"
+                className="header-r-itm menu-hide-itm text-decoration-none"
+                title="Activation Process"
+              >
+                <img src="https://www.vipnumbersclub.com/assets/front/img/menu-video-ic.svg" alt="Process" />
+              </Link>
+
+              {/* Search icon */}
+              <Link
+                to="/search-results"
+                className="header-r-itm text-decoration-none"
+                title="Search Numbers"
+              >
+                <img src="https://www.vipnumbersclub.com/assets/front/img/menu-search-ic.svg" alt="Search" />
+              </Link>
+
+              {/* Cart icon */}
+              <button
+                type="button"
+                onClick={() => setIsCartOpen(true)}
+                className="header-r-itm border-0 bg-transparent p-0 position-relative"
+                title="Cart"
+              >
+                <img src="https://www.vipnumbersclub.com/assets/front/img/cart-search-ic.svg" alt="Cart" />
+                <span className="cart-count">{cart.length}</span>
+              </button>
+
+              {/* Profile icon */}
+              <Link
+                to="/contact-us"
+                className="header-r-itm text-decoration-none"
+                title="Profile & Support"
+              >
+                <img src="https://www.vipnumbersclub.com/assets/front/img/profile-search-ic.svg" alt="Profile" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* 3. MOBILE MENU SLIDE-OUT DRAWER */}
+        {isMobileMenuOpen && (
+          <div className="mobile-menu d-block position-fixed top-0 start-0 w-100 h-100 bg-dark-pure" style={{ zIndex: 2000, overflowY: 'auto' }}>
+            <div className="menu-inner p-4" style={{ maxWidth: '400px' }}>
+              <div className="menu-header d-flex align-items-center justify-content-between pb-3 border-bottom border-secondary mb-4">
+                <div className="login-btn-wrap d-flex align-items-center gap-2">
+                  <div className="user-ic">
+                    <img src="https://www.vipnumbersclub.com/assets/front/img/avatar.svg" alt="User Icon" />
+                  </div>
+                  <a
+                    href="https://wa.me/9111117777?text=Hello%20VIP%20Numbers%20Club"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn_primary btn-sm d-inline-flex align-items-center gap-2"
+                  >
+                    <span>Login / Chat</span>
+                    <span className="arrow-ic">
+                      <img src="https://www.vipnumbersclub.com/assets/front/img/btn-arrow.svg" alt="arrow" />
+                    </span>
+                  </a>
+                </div>
+
+                <div className="close-wrap">
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="close-btn border-0 bg-transparent p-1"
+                    aria-label="Close menu"
+                  >
+                    <img src="https://www.vipnumbersclub.com/assets/front/img/close.svg" alt="Close" />
+                  </button>
                 </div>
               </div>
-              <a
-                href={`https://wa.me/${SITE_INFO.phoneRaw}?text=${encodeURIComponent('Hello Ranvijay, I would like to consult on VIP Numbers.')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm transition-colors"
-              >
-                <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Chat on WhatsApp (24*7)</span>
-              </a>
+
+              <div className="menu-list">
+                <ul className="list-unstyled space-y-2">
+                  <li className="mb-2">
+                    <Link
+                      to="/search-results?category=super-sale-zone"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon icon-eff"><img src="https://www.vipnumbersclub.com/assets/front/img/super-high.svg" alt="" /></span>
+                      <span>Super High Discounted Deals</span>
+                    </Link>
+                  </li>
+                  <li className="mb-2">
+                    <Link
+                      to="/contact-us"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic1.svg" alt="" /></span>
+                      <span>My Account / Support</span>
+                    </Link>
+                  </li>
+                  <li className="mb-2">
+                    <Link
+                      to="/services"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon icon-eff"><img src="https://www.vipnumbersclub.com/assets/front/img/reseller.svg" alt="" /></span>
+                      <span>Reseller Panel & Bulk</span>
+                    </Link>
+                  </li>
+                  <li className="mb-2">
+                    <Link
+                      to="/clientele"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic2.svg" alt="" /></span>
+                      <span>Clientele</span>
+                    </Link>
+                  </li>
+                  <li className="mb-2">
+                    <Link
+                      to="/search-results"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic3.svg" alt="" /></span>
+                      <span>Pre Booking</span>
+                    </Link>
+                  </li>
+                  <li className="mb-2">
+                    <Link
+                      to="/home-delivery"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic4.svg" alt="" /></span>
+                      <span>Home Delivery (COD)</span>
+                    </Link>
+                  </li>
+                  <li className="mb-2">
+                    <Link
+                      to="/process"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic6.svg" alt="" /></span>
+                      <span>Activation Process</span>
+                    </Link>
+                  </li>
+                  <li className="mb-2">
+                    <Link
+                      to="/services"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic8.svg" alt="" /></span>
+                      <span>Services</span>
+                    </Link>
+                  </li>
+                  <li className="mb-2">
+                    <Link
+                      to="/contact-us"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic9.svg" alt="" /></span>
+                      <span>Contact Us</span>
+                    </Link>
+                  </li>
+                  <li className="mb-2">
+                    <Link
+                      to="/about-us"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic10.svg" alt="" /></span>
+                      <span>About Us</span>
+                    </Link>
+                  </li>
+                  <li className="mb-2">
+                    <Link
+                      to="/refund-policy"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic11.svg" alt="" /></span>
+                      <span>Refund Policy</span>
+                    </Link>
+                  </li>
+                  <li className="mb-2">
+                    <Link
+                      to="/general-doubts"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="d-flex align-items-center gap-3 text-white text-decoration-none py-2"
+                    >
+                      <span className="m-icon"><img src="https://www.vipnumbersclub.com/assets/front/img/m_ic12.svg" alt="" /></span>
+                      <span>General Doubts (FAQ)</span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </header>
+        )}
+      </section>
+    </>
   );
 };

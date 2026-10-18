@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SITE_INFO } from '../data/siteInfo';
 import { useApp } from '../context/AppContext';
-import { MapPin, Phone, Mail, Clock, FileText, MessageCircle, Send, CheckCircle2 } from 'lucide-react';
+import { Send, CheckCircle2, MapPin, Building2 } from 'lucide-react';
 
 export const ContactUsPage: React.FC = () => {
   const { showToast } = useApp();
@@ -34,211 +34,139 @@ Hello Ranvijay, I would like to get in touch regarding VIP numbers.`;
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-      {/* Header */}
-      <div className="text-center space-y-3 max-w-xl mx-auto">
-        <span className="text-xs uppercase font-bold text-gold tracking-widest">
-          Available 24*7 Day & Night
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white">
-          Contact VIP Numbers Club
-        </h1>
-        <p className="text-sm text-white/60">
-          Have questions about a VIP number, custom sourcing, or MNP activation? Our executive team is ready to assist you.
-        </p>
-      </div>
+    <div className="contact-us-page">
+      {/* Original Page Center Icon */}
+      <section className="page-center-ic padding-70">
+        <div className="container">
+          <div className="page-center-ic-in">
+            <img src="https://www.vipnumbersclub.com/assets/front/img/contact-page-ic.svg" alt="Contact VIP Numbers Club" />
+          </div>
+        </div>
+      </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Column: Direct Coordinates Card */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="rounded-3xl bg-dark-card border border-dark-border p-6 sm:p-8 space-y-6 shadow-2xl">
-            <h2 className="text-lg font-bold text-white pb-3 border-b border-dark-border">
-              Direct Contact Information
-            </h2>
-
-            <div className="space-y-5 text-xs">
-              <div className="flex items-start gap-3.5">
-                <div className="p-2.5 rounded-xl bg-gold/10 text-gold border border-gold/30 shrink-0">
-                  <Phone className="w-5 h-5" />
+      {/* Original Contact Section */}
+      <section className="contact-sec padding-70">
+        <div className="container">
+          <div className="contact-sec-in">
+            <div className="contact-itms">
+              <div className="contact-itm">
+                <div className="contact-cn">
+                  <div className="contact-nm">Ranvijay</div>
+                  <p className="contact-number">9111117777</p>
                 </div>
-                <div>
-                  <div className="text-white/50 uppercase font-semibold">Primary Executive & Helpline</div>
-                  <div className="text-sm font-bold text-white mt-0.5">{SITE_INFO.leadContact}</div>
-                  <a href={`tel:${SITE_INFO.phoneRaw}`} className="text-gold font-mono text-sm font-bold hover:underline">
-                    {SITE_INFO.phone}
+                <div className="contact-meta">
+                  <a href={`https://wa.me/${SITE_INFO.phoneRaw}`} target="_blank" rel="noopener noreferrer">
+                    <img src="https://www.vipnumbersclub.com/assets/front/img/contact-whatsapp-ic.svg" alt="WhatsApp" />
+                  </a>
+                  <a href={`tel:${SITE_INFO.phoneRaw}`}>
+                    <img src="https://www.vipnumbersclub.com/assets/front/img/contact-call-ic.svg" alt="Call" />
                   </a>
                 </div>
               </div>
+            </div>
+            <div className="contact-footer">
+              <p>Office Timings 24*7 ( DAY &amp; NIGHT ) SHIFT</p>
+              <p>Monday to Sunday</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-              <div className="flex items-start gap-3.5">
-                <div className="p-2.5 rounded-xl bg-gold/10 text-gold border border-gold/30 shrink-0">
-                  <Clock className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-white/50 uppercase font-semibold">Office Hours</div>
-                  <div className="text-white font-medium mt-0.5">{SITE_INFO.officeHours}</div>
-                  <div className="text-emerald-400 text-[11px] font-semibold mt-0.5">● Always Online & Active</div>
-                </div>
+      {/* Corporate Coordinates & Online Message Form */}
+      <section className="content-sec" style={{ paddingBottom: '70px' }}>
+        <div className="container" style={{ maxWidth: '960px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+            {/* Headquarters details */}
+            <div style={{ background: '#090808', border: '1px solid #404040', borderRadius: '20px', padding: '30px', boxShadow: '0px 0px 34px rgba(236,174,1,0.2)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#ECAE01', marginBottom: '20px' }}>
+                <Building2 style={{ width: '24px', height: '24px' }} />
+                <h3 style={{ fontSize: '20px', fontWeight: 700, margin: 0, color: '#fff' }}>Jaipur Headquarters</h3>
               </div>
 
-              <div className="flex items-start gap-3.5">
-                <div className="p-2.5 rounded-xl bg-gold/10 text-gold border border-gold/30 shrink-0">
-                  <Mail className="w-5 h-5" />
-                </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', fontSize: '13px', color: '#aaa' }}>
                 <div>
-                  <div className="text-white/50 uppercase font-semibold">Official Email</div>
-                  <a href={`mailto:${SITE_INFO.email}`} className="text-white font-medium hover:text-gold transition-colors mt-0.5 block">
+                  <div style={{ color: '#ECAE01', fontWeight: 600 }}>OFFICIAL ADDRESS</div>
+                  <div style={{ color: '#fff', marginTop: '4px', lineHeight: '1.6' }}>
+                    {SITE_INFO.address.full}
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{ color: '#ECAE01', fontWeight: 600 }}>GST REGISTRATION</div>
+                  <div style={{ color: '#fff', marginTop: '4px', fontFamily: 'monospace', fontSize: '14px' }}>
+                    {SITE_INFO.gstNumber}
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{ color: '#ECAE01', fontWeight: 600 }}>OFFICIAL EMAIL</div>
+                  <a href={`mailto:${SITE_INFO.email}`} style={{ color: '#fff', textDecoration: 'none', display: 'block', marginTop: '4px' }}>
                     {SITE_INFO.email}
                   </a>
                 </div>
               </div>
-
-              <div className="flex items-start gap-3.5">
-                <div className="p-2.5 rounded-xl bg-gold/10 text-gold border border-gold/30 shrink-0">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-white/50 uppercase font-semibold">Registered Headquarters</div>
-                  <div className="text-white font-medium mt-0.5 leading-relaxed">
-                    {SITE_INFO.address.full}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3.5">
-                <div className="p-2.5 rounded-xl bg-gold/10 text-gold border border-gold/30 shrink-0">
-                  <FileText className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-white/50 uppercase font-semibold">GST Registration</div>
-                  <div className="text-white font-mono font-bold mt-0.5">
-                    {SITE_INFO.gstNumber}
-                  </div>
-                </div>
-              </div>
             </div>
 
-            {/* Direct WhatsApp Action Button */}
-            <button
-              type="button"
-              onClick={handleWhatsAppDirect}
-              className="w-full flex items-center justify-center gap-2.5 py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-950/40 transition-all hover:scale-105"
-            >
-              <MessageCircle className="w-4 h-4 fill-white" />
-              <span>Chat with Ranvijay on WhatsApp</span>
-            </button>
-          </div>
-        </div>
+            {/* Direct Message Form */}
+            <div style={{ background: '#090808', border: '1px solid #404040', borderRadius: '20px', padding: '30px', boxShadow: '0px 0px 34px rgba(236,174,1,0.2)' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '16px' }}>
+                Send Direct Inquiry
+              </h3>
 
-        {/* Right Column: Interactive Contact & Enquiry Form */}
-        <div className="lg:col-span-7">
-          <div className="rounded-3xl bg-dark-card border border-dark-border p-6 sm:p-8 space-y-6 shadow-2xl">
-            <h2 className="text-lg font-bold text-white pb-3 border-b border-dark-border">
-              Send an Instant Message
-            </h2>
-
-            {submitted ? (
-              <div className="py-16 text-center space-y-3">
-                <div className="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 mx-auto flex items-center justify-center border border-emerald-500/20">
-                  <CheckCircle2 className="w-8 h-8" />
+              {submitted ? (
+                <div style={{ textAlign: 'center', padding: '30px 10px' }}>
+                  <CheckCircle2 style={{ width: '48px', height: '48px', color: '#10b981', margin: '0 auto 12px' }} />
+                  <h4 style={{ color: '#fff', fontSize: '18px', fontWeight: 700 }}>Inquiry Received!</h4>
+                  <p style={{ color: '#aaa', fontSize: '13px' }}>Ranvijay will contact you shortly.</p>
                 </div>
-                <h3 className="text-xl font-bold text-white">Message Sent Successfully</h3>
-                <p className="text-xs text-white/60 max-w-xs mx-auto">
-                  Thank you for reaching out. Ranvijay or a support specialist will reply to your inquiry shortly.
-                </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="mt-4 px-5 py-2.5 rounded-xl bg-dark-surface border border-dark-border text-xs text-white hover:bg-dark-hover"
-                >
-                  Send Another Message
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-white/70">Your Full Name</label>
-                    <input
-                      type="text"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="e.g. Rahul Sharma"
-                      className="w-full bg-dark-surface border border-dark-border rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none focus:border-gold"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-white/70">Contact Number *</label>
-                    <input
-                      type="tel"
-                      required
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="10-digit mobile number"
-                      className="w-full bg-dark-surface border border-dark-border rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none focus:border-gold font-mono"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-white/70">Email Address (optional)</label>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="name@example.com"
-                      className="w-full bg-dark-surface border border-dark-border rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none focus:border-gold"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-white/70">Inquiry Subject</label>
-                    <input
-                      type="text"
-                      value={subject}
-                      onChange={(e) => setSubject(e.target.value)}
-                      placeholder="e.g. Booking inquiry or Custom number"
-                      className="w-full bg-dark-surface border border-dark-border rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none focus:border-gold"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-white/70">Your Message / Requirement</label>
+              ) : (
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Your Name *"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    style={{ background: '#000', border: '1px solid #333', borderRadius: '10px', padding: '10px 14px', color: '#fff', fontSize: '13px' }}
+                  />
+                  <input
+                    type="tel"
+                    required
+                    placeholder="Your Mobile Number *"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    style={{ background: '#000', border: '1px solid #333', borderRadius: '10px', padding: '10px 14px', color: '#fff', fontSize: '13px' }}
+                  />
                   <textarea
-                    rows={4}
+                    rows={3}
+                    placeholder="Your Requirement / Preferred Digits..."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Describe the VIP number sequence or doubt you have..."
-                    className="w-full bg-dark-surface border border-dark-border rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none focus:border-gold resize-none"
+                    style={{ background: '#000', border: '1px solid #333', borderRadius: '10px', padding: '10px 14px', color: '#fff', fontSize: '13px', resize: 'none' }}
                   />
-                </div>
-
-                <div className="pt-2 flex flex-col sm:flex-row gap-3">
                   <button
                     type="submit"
-                    className="flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-gold hover:bg-gold-light text-dark-pure font-bold text-xs uppercase tracking-wider shadow-gold-sm transition-all"
+                    style={{
+                      background: 'linear-gradient(230.05deg, #DBA73E 23.32%, #F7ED9A 44.14%, #A76F29 56.54%, #E0C77D 67.61%)',
+                      color: '#000',
+                      fontWeight: 800,
+                      padding: '12px',
+                      borderRadius: '80px',
+                      border: 'none',
+                      fontSize: '13px',
+                      textTransform: 'uppercase',
+                      cursor: 'pointer',
+                      marginTop: '6px'
+                    }}
                   >
-                    <Send className="w-4 h-4" />
-                    <span>Submit Enquiry</span>
+                    Submit Inquiry
                   </button>
-
-                  <button
-                    type="button"
-                    onClick={handleWhatsAppDirect}
-                    className="flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-dark-surface hover:bg-dark-hover border border-dark-border text-xs text-white/80 hover:text-white transition-colors"
-                  >
-                    <MessageCircle className="w-4 h-4 text-emerald-400" />
-                    <span>Send via WhatsApp</span>
-                  </button>
-                </div>
-              </form>
-            )}
+                </form>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

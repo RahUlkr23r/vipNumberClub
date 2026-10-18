@@ -1,120 +1,151 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { SITE_INFO } from '../data/siteInfo';
-import { ShieldCheck, Award, Users, CheckCircle2, ArrowRight, MapPin, Building2, Clock } from 'lucide-react';
 
 export const AboutUsPage: React.FC = () => {
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-      {/* Hero Header */}
-      <div className="text-center space-y-4 max-w-2xl mx-auto">
-        <span className="text-xs uppercase font-bold text-gold tracking-widest">
-          Defining Digital Prestige Since 2009
-        </span>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-          About VIP Numbers Club
-        </h1>
-        <p className="text-sm sm:text-base text-white/70 leading-relaxed">
-          In an era where your mobile number is more than just a contact—it is your digital identity, your brand’s first impression, and a symbol of your status.
-        </p>
-      </div>
+    <div className="about-us-page">
+      {/* Top Banner with original image */}
+      <section className="about-page-img-s">
+        <div className="container">
+          <div className="about-page-img">
+            <img src="https://www.vipnumbersclub.com/assets/front/img/about-page.png" alt="About VIP Numbers Club" />
+          </div>
+        </div>
+      </section>
 
-      {/* Origin Story Card */}
-      <div className="rounded-3xl bg-dark-card border border-dark-border p-8 sm:p-12 space-y-6 shadow-2xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="space-y-4 text-sm text-white/80 leading-relaxed">
-            <h2 className="text-2xl font-bold text-white">
-              16+ Years of Excellence from the Pink City
+      {/* Main Content Section using exact original classes */}
+      <section className="content-sec padding-70">
+        <div className="container">
+          <div className="content-sec-in">
+            <h2 style={{ color: '#ECAE01', fontSize: '28px', fontWeight: 700, marginBottom: '20px' }}>
+              Defining Digital Prestige Since 2009
             </h2>
+
             <p>
-              Based in the heart of Jaipur, Rajasthan at The Elysian, Swej Farm Circle, Civil Lines, <strong className="text-gold">VIP Numbers Club</strong> has spent the last 16 years curating the most exclusive collection of fancy, repetitive, and numerologically aligned mobile numbers in India.
+              In an era where your mobile number is more than just a contact—it is your digital identity, your brand’s first impression, and a symbol of your status—<strong>VIP Numbers Club</strong> stands as the definitive leader in VIP Mobile Number consultancy. Based in the heart of the Pink City, Jaipur, we have spent the last 16 years curating the most exclusive, memorable, and powerful mobile numbers for India’s elite.
             </p>
+
+            <h4 style={{ color: '#fff', fontSize: '20px', fontWeight: 600, marginTop: '30px', marginBottom: '10px' }}>
+              Our Legacy: 16 Years of Excellence
+            </h4>
             <p>
-              Under the leadership of Ranvijay, what started as a specialized consultancy has grown into India's largest and most reliable portal for verified VIP numbers. We have served thousands of satisfied clients—ranging from corporate leaders and high-net-worth individuals to celebrities, politicians, and leading enterprises such as Flipkart and Quess Corp.
+              Trust is not built overnight; it is forged over decades of consistent service. Since our inception in 2009, we have transitioned from a local mobile service to India’s most trusted marketplace for premium telecommunication identities.
             </p>
-          </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-5 rounded-2xl bg-dark-surface border border-dark-border text-center space-y-2">
-              <div className="text-3xl font-extrabold text-gold font-mono">16+</div>
-              <div className="text-xs text-white/60 font-medium">Years in Business (Since 2009)</div>
-            </div>
+            <p>
+              We understand that a VIP number is an investment. Whether it is a "Seven Series" repetitive sequence, a "Royal Mirror" pattern, or a "Date of Birth" specialty number, we have successfully delivered over 16,000+ Numbers connections to satisfied clients across the nation.
+            </p>
 
-            <div className="p-5 rounded-2xl bg-dark-surface border border-dark-border text-center space-y-2">
-              <div className="text-3xl font-extrabold text-emerald-400 font-mono">100%</div>
-              <div className="text-xs text-white/60 font-medium">Legal MNP Activation</div>
-            </div>
+            <h4 style={{ color: '#fff', fontSize: '20px', fontWeight: 600, marginTop: '30px', marginBottom: '10px' }}>
+              The Power of 70: A Team Like No Other
+            </h4>
+            <p>
+              While many in this industry operate as solo brokers, we believe in the power of an institution. Our strength lies in our dedicated team of 70 professionals. This is not just a business; it is a full-scale operation designed to provide you with a seamless experience.
+            </p>
 
-            <div className="p-5 rounded-2xl bg-dark-surface border border-dark-border text-center space-y-2">
-              <div className="text-3xl font-extrabold text-white font-mono">24*7</div>
-              <div className="text-xs text-white/60 font-medium">Support Shifts (Day & Night)</div>
-            </div>
+            <p>
+              <strong>Expert Consultants:</strong> Our team helps you choose a number that aligns with your numerological preferences or business branding.
+            </p>
 
-            <div className="p-5 rounded-2xl bg-dark-surface border border-dark-border text-center space-y-2">
-              <div className="text-3xl font-extrabold text-gold font-mono">08...</div>
-              <div className="text-xs text-white/60 font-medium">GST Registered Entity</div>
-            </div>
-          </div>
-        </div>
-      </div>
+            <p>
+              <strong>Documentation Specialists:</strong> We handle the complex "Porting" and "MNP" processes, ensuring that the legal transfer of ownership is 100% compliant with TRAI regulations. After-Sales Support: Our relationship doesn't end when the SIM is activated.
+            </p>
 
-      {/* Core Values & Commitments */}
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-white text-center">
-          Our Four Non-Negotiable Commitments
-        </h2>
+            <p>
+              Our large team ensures that any technical or administrative queries are resolved instantly.
+            </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {SITE_INFO.guarantees.map((g, idx) => (
-            <div key={idx} className="p-6 rounded-2xl bg-dark-card border border-dark-border/80 space-y-2">
-              <div className="flex items-center gap-2.5 text-gold font-bold text-base">
-                <CheckCircle2 className="w-5 h-5 text-gold shrink-0" />
-                <span>{g.title}</span>
+            <h5>Why Trust Us ???</h5>
+
+            <p>
+              In a market often clouded by uncertainty, we bring transparency and security.
+            </p>
+
+            <p>
+              Here is why thousands of high-net-worth individuals, celebrities, and business tycoons choose us:
+            </p>
+
+            <p>
+              <strong>Physical Presence in Jaipur:</strong> Unlike anonymous online sellers, we are a rooted organization. Our headquarters in Jaipur serves as a testament to our permanence and accountability.
+            </p>
+
+            <p>
+              <strong>Verified Ownership:</strong> We ensure every number in our inventory is verified and ready for immediate legal transfer. We prioritize the security of your data and your investment above all else.
+            </p>
+
+            <p>
+              <strong>End-to-End Handholding:</strong> From selecting your number to the final activation on your preferred network (Airtel, Jio, Vi, or BSNL), our team manages the entire lifecycle of the purchase.
+            </p>
+
+            <p>
+              <strong>Legacy of Privacy:</strong> We understand that our clients value discretion. We handle every transaction with the highest level of confidentiality, ensuring your premium identity is secured privately.
+            </p>
+
+            <p>
+              <strong>Our Philosophy: Your Identity, Our Passion</strong>
+            </p>
+
+            <p>
+              We believe that a phone number should be as unique as the person who owns it. In a world of ten-digit strings, we provide the "Golden" exceptions. We don't just sell numbers; we help you craft a legacy. A VIP number from VIP Numbers Club is easy to remember for your clients, prestigious for your social circle, and an asset that appreciates in value over time.
+            </p>
+
+            <p>
+              As we look toward the future, our mission remains the same: To provide the most exclusive telecommunication assets in India with the integrity of a 16-year-old institution.
+            </p>
+
+            <h5>Join the Elite</h5>
+
+            <p>
+              Whether you are a business looking to increase your marketing recall or an individual looking to stand out, your journey toward a premium identity starts here. Backed by 16 years of experience and a team of 70 experts, we are ready to serve you.
+            </p>
+
+            {/* Corporate Head Office Details */}
+            <div style={{ marginTop: '40px', padding: '30px', background: '#090808', border: '1px solid #404040', borderRadius: '20px', boxShadow: '0px 0px 34px rgba(236,174,1,0.2)' }}>
+              <h4 style={{ color: '#ECAE01', fontSize: '18px', fontWeight: 700, marginBottom: '15px' }}>
+                Corporate Headquarters & Registration
+              </h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', fontSize: '14px', color: '#ccc' }}>
+                <div>
+                  <div style={{ color: '#777', fontSize: '12px', textTransform: 'uppercase' }}>Entity</div>
+                  <div style={{ color: '#fff', fontWeight: 600 }}>VIP Numbers Club</div>
+                  <div style={{ color: '#999' }}>GSTIN: {SITE_INFO.gstNumber}</div>
+                </div>
+                <div>
+                  <div style={{ color: '#777', fontSize: '12px', textTransform: 'uppercase' }}>Address</div>
+                  <div style={{ color: '#fff', fontWeight: 600 }}>{SITE_INFO.address.suite}</div>
+                  <div style={{ color: '#999' }}>{SITE_INFO.address.landmark}, {SITE_INFO.address.city}, {SITE_INFO.address.state} - {SITE_INFO.address.pincode}</div>
+                </div>
+                <div>
+                  <div style={{ color: '#777', fontSize: '12px', textTransform: 'uppercase' }}>Direct Support</div>
+                  <div style={{ color: '#fff', fontWeight: 600 }}>Ranvijay ({SITE_INFO.phone})</div>
+                  <div style={{ color: '#999' }}>Office Hours: 24*7 Day & Night Shift</div>
+                </div>
               </div>
-              <div className="text-xs font-semibold text-white/50">{g.subtitle}</div>
-              <p className="text-xs text-white/70 leading-relaxed pt-1">
-                {g.description}
-              </p>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Corporate Registration & Head Office */}
-      <div className="rounded-3xl bg-dark-surface border border-dark-border p-8 space-y-4">
-        <h3 className="text-lg font-bold text-white flex items-center gap-2">
-          <Building2 className="w-5 h-5 text-gold" />
-          <span>Registered Corporate Credentials</span>
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-white/80">
-          <div>
-            <div className="text-white/40 uppercase font-semibold">Registered Entity</div>
-            <div className="font-bold text-white mt-1">VIP Numbers Club</div>
-            <div className="text-white/60 mt-0.5">GSTIN: {SITE_INFO.gstNumber}</div>
-          </div>
-          <div>
-            <div className="text-white/40 uppercase font-semibold">Headquarters</div>
-            <div className="font-bold text-white mt-1">{SITE_INFO.address.suite}</div>
-            <div className="text-white/60 mt-0.5">{SITE_INFO.address.landmark}, {SITE_INFO.address.city}, {SITE_INFO.address.state} - {SITE_INFO.address.pincode}</div>
-          </div>
-          <div>
-            <div className="text-white/40 uppercase font-semibold">Executive Contact</div>
-            <div className="font-bold text-white mt-1">{SITE_INFO.leadContact}</div>
-            <div className="text-white/60 mt-0.5">{SITE_INFO.phone} (24*7 Day & Night)</div>
+            <div style={{ textAlign: 'center', marginTop: '40px' }}>
+              <Link
+                to="/search-results"
+                style={{
+                  display: 'inline-block',
+                  background: 'linear-gradient(230.05deg, #DBA73E 23.32%, #F7ED9A 44.14%, #A76F29 56.54%, #E0C77D 67.61%)',
+                  color: '#000',
+                  fontWeight: 800,
+                  fontSize: '15px',
+                  padding: '14px 35px',
+                  borderRadius: '80px',
+                  textDecoration: 'none',
+                  textTransform: 'uppercase',
+                  boxShadow: '0px 0px 34px rgba(236, 174, 1, 0.4)'
+                }}
+              >
+                Browse VIP Numbers →
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Bottom CTA */}
-      <div className="text-center pt-4">
-        <Link
-          to="/search-results"
-          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-gold to-gold-light text-dark-pure font-bold text-sm tracking-wide shadow-gold-md hover:scale-105 transition-all"
-        >
-          <span>Explore VIP Number Catalogue</span>
-          <ArrowRight className="w-4 h-4" />
-        </Link>
-      </div>
+      </section>
     </div>
   );
 };

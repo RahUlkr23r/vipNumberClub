@@ -2,401 +2,319 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { HeroSlider } from '../components/HeroSlider';
 import { NumberCard } from '../components/NumberCard';
-import { VIP_NUMBERS, POPULAR_CATEGORIES } from '../data/numbers';
-import { SITE_INFO } from '../data/siteInfo';
-import { 
-  Sparkles, 
-  ShieldCheck, 
-  Zap, 
-  ArrowRight, 
-  Clock, 
-  PhoneCall, 
-  CheckCircle2, 
-  Check, 
-  FileText, 
-  Truck, 
-  Award,
-  ChevronRight,
-  HelpCircle
-} from 'lucide-react';
+import { VIP_NUMBERS } from '../data/numbers';
 
 export const HomePage: React.FC = () => {
-  // Filter numbers for specific homepage sections
-  const vvipNumbers = VIP_NUMBERS.filter(n => n.priceNumeric >= 50000).slice(0, 6);
-  const mostClickedNumbers = VIP_NUMBERS.filter(n => n.trending).slice(0, 6);
-  const zeroLoversNumbers = VIP_NUMBERS.filter(n => n.tags.includes('Zero Lovers') || n.number.includes('000')).slice(0, 6);
-  const auspicious786Numbers = VIP_NUMBERS.filter(n => n.tags.includes('786 Auspicious') || n.number.includes('786')).slice(0, 6);
-  const tetraNumbers = VIP_NUMBERS.filter(n => n.tags.includes('Tetra Numbers') || n.tags.includes('Penta Numbers')).slice(0, 6);
-  const budgetNumbers = VIP_NUMBERS.filter(n => n.priceNumeric <= 10000).slice(0, 6);
-  const luckyRoot1Numbers = VIP_NUMBERS.filter(n => n.total === 1).slice(0, 6);
+  // Extract number groups matching the original sections
+  const vvipNumbers = VIP_NUMBERS.filter(n => n.priceNumeric >= 50000).slice(0, 8);
+  const mostClickedNumbers = VIP_NUMBERS.filter(n => n.trending).slice(0, 8);
+  const zeroLoversNumbers = VIP_NUMBERS.filter(n => n.tags.includes('Zero Lovers') || n.number.includes('000')).slice(0, 8);
+  const ababNumbers = VIP_NUMBERS.filter(n => n.tags.includes('ABAB Pattern')).slice(0, 8);
+  const helplineNumbers = VIP_NUMBERS.filter(n => n.category.includes('Helpline') || n.number.startsWith('939000')).slice(0, 8);
+  const numbers786 = VIP_NUMBERS.filter(n => n.tags.includes('786 Auspicious') || n.number.includes('786')).slice(0, 8);
+  const tetraNumbers = VIP_NUMBERS.filter(n => n.tags.includes('Tetra Numbers')).slice(0, 8);
+  const mirrorNumbers = VIP_NUMBERS.filter(n => n.tags.includes('Mirror Series')).slice(0, 8);
+  const pentaNumbers = VIP_NUMBERS.filter(n => n.tags.includes('Penta Numbers')).slice(0, 8);
+  const budgetNumbers = VIP_NUMBERS.filter(n => n.priceNumeric <= 10000).slice(0, 8);
+  const luckyRoot1 = VIP_NUMBERS.filter(n => n.total === 1).slice(0, 8);
+
+  const adsBanners = [
+    "https://www.vipnumbersclub.com/uploads/banners/3ijZiUrMQFODuH2slEUQ.jpg",
+    "https://www.vipnumbersclub.com/uploads/banners/W5MTlCebysWS6dYphrQO.jpg",
+    "https://www.vipnumbersclub.com/uploads/banners/xBzXJve2DFuLbqyfekfM.jpg",
+    "https://www.vipnumbersclub.com/uploads/banners/vC5Ow4JNpZogcdVE29Jy.jpg",
+    "https://www.vipnumbersclub.com/uploads/banners/HysJNRUc7lu9uWvUUUmj.jpg",
+    "https://www.vipnumbersclub.com/uploads/banners/U5jWX2d1JtZG8kjBd6Ww.jpg",
+    "https://www.vipnumbersclub.com/uploads/banners/WFejsJgWFhO74PT16PYS.png",
+    "https://www.vipnumbersclub.com/uploads/banners/wM7zvSHFVwJ6G81hCcKN.jpg"
+  ];
+
+  const videoBanners = [
+    "https://www.vipnumbersclub.com/uploads/banners/YuuhxRz95eDQMi2Dw9S6.png",
+    "https://www.vipnumbersclub.com/uploads/banners/QSJj2eVZ9RTwAtvXwYXl.png",
+    "https://www.vipnumbersclub.com/uploads/banners/YdkVQN78qMPYN5Naqev6.png",
+    "https://www.vipnumbersclub.com/uploads/banners/9JRXC8GrFwuwvP5A0v28.png",
+    "https://www.vipnumbersclub.com/uploads/banners/oogN9meTtcM0beKmPrUt.png"
+  ];
+
+  const trendingCategories = [
+    { title: "royal gold", num: "600002 1008", prefix: "600", q: "royal-gold" },
+    { title: "Premium Numbers", num: "8055 8 8055 3", prefix: "805", q: "premium-numbers" },
+    { title: "Bill Board Numbers", num: "89 888 23456", prefix: "89 ", q: "bill-board-numbers" },
+    { title: "Penta Last", num: "91 383 22222", prefix: "91 ", q: "penta-last" },
+    { title: "Mirror Ulta-Pulta", num: "9127791277", prefix: "912", q: "mirror-ulta-pulta" },
+    { title: "Tetra Last", num: "8399909999", prefix: "839", q: "tetra-last" },
+    { title: "Fancy Numbers", num: "946 111 5 222", prefix: "946", q: "fancy-numbers" },
+    { title: "Special Penta Last", num: "91 345 99999", prefix: "91 ", q: "special-penta-last" },
+    { title: "Mirror Numbers", num: "7447474474", prefix: "744", q: "mirror-numbers" },
+    { title: "00000 Last", num: "83005 00000", prefix: "830", q: "00000-last" }
+  ];
+
+  // Helper renderer for VIP Section with original .box-sec and .box-heading-h2 classes
+  const renderNumberSection = (title: string, numbers: typeof VIP_NUMBERS, linkQuery?: string) => (
+    <section className="vip-highend-number padding-70 py-4">
+      <div className="container">
+        <div className="vip-highend-number box-sec">
+          <div className="box-heading">
+            <div className="box-heading-h2">
+              <h2 className="box-heading-h2-in">
+                <Link to={`/search-results?category=${linkQuery || 'all'}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                  {title}
+                </Link>
+              </h2>
+            </div>
+          </div>
+
+          <div className="number-sld">
+            {numbers.map(num => (
+              <div key={num.id} className="item">
+                <NumberCard number={num} />
+              </div>
+            ))}
+          </div>
+
+          <div className="box-footer">
+            <p className="mb-0">100% Money-Back Guarantee Until Activation</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 
   return (
-    <div className="space-y-16 pb-16">
-      {/* 1. Hero Section */}
+    <div className="main-content">
+      {/* 1. HERO SLIDER */}
       <HeroSlider />
 
-      {/* 2. Authentic Promo Banner Carousel */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {SITE_INFO.assets.promoBanners.slice(0, 3).map((banner, i) => (
-            <div key={i} className="rounded-2xl overflow-hidden border border-dark-border shadow-xl hover:border-gold/40 transition-all group">
-              <img
-                src={banner}
-                alt={`VIP Numbers Club Promo Banner ${i + 1}`}
-                className="w-full h-44 sm:h-52 object-cover transition-transform duration-300 group-hover:scale-105"
-                loading="lazy"
-              />
-            </div>
-          ))}
+      {/* 2. ADS BANNERS SECTION (.ads-sec) */}
+      <section className="ads-sec pt-4 pb-4">
+        <div className="container">
+          <div className="ads-sec-in">
+            {adsBanners.map((banner, i) => (
+              <div key={i} className="item">
+                <div className="ads-sec-itm">
+                  <img
+                    src={banner}
+                    alt={`VIP Numbers Banner ${i + 1}`}
+                    className="w-100 rounded-4 d-block object-fit-cover"
+                    style={{ height: '180px', objectFit: 'cover', borderRadius: '15px' }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* 3. Trending Categories Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-baseline justify-between gap-2 pb-6 border-b border-dark-border">
-          <div>
-            <span className="text-xs font-bold text-gold uppercase tracking-wider">Curated Collections</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-              Trending Categories
-            </h2>
+      {/* 3. TRENDING CATEGORIES SECTION (.trending-cat) */}
+      <section className="trending-cat padding-70 py-4">
+        <div className="container">
+          <div className="trending-cat-in box-sec">
+            <div className="box-heading">
+              <div className="box-heading-h2">
+                <h2 className="box-heading-h2-in">
+                  <Link to="/search-results" style={{ color: 'inherit', textDecoration: 'none' }}>
+                    Trending Categories
+                  </Link>
+                </h2>
+              </div>
+            </div>
+
+            <div className="trending-cat-sld">
+              {trendingCategories.map((cat, i) => (
+                <div key={i} className="item">
+                  <div className="trending-cat-itm">
+                    <Link
+                      to={`/search-results?category=${encodeURIComponent(cat.q)}`}
+                      className="trending-cat-card-link text-decoration-none"
+                    >
+                      <div className="trending-cat-itm-con">
+                        <h5 className="text-white text-capitalize">{cat.title}</h5>
+                        <div className="trending-cat-number font-mono">
+                          <span style={{ color: '#ECAE01' }}>{cat.prefix}</span>
+                          {cat.num.slice(cat.prefix.length)}
+                        </div>
+                        <div className="btn-circle-s">
+                          <span className="btn-circle">
+                            <img src="https://www.vipnumbersclub.com/assets/front/img/btn-arrow.svg" alt="arrow" />
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="box-footer">
+              <p className="mb-0">100% Money-Back Guarantee Until Activation</p>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* 4. "MY OWN CHOICE NUMBER" BANNER (.my-ownchoice) */}
+      <section className="my-ownchoice padding-70 py-4">
+        <div className="container">
           <Link
-            to="/search-results"
-            className="text-xs font-semibold text-gold hover:text-gold-light inline-flex items-center gap-1.5 transition-colors"
+            to="/contact-us"
+            className="my-ownchoice-in d-block text-decoration-none cursor-pointer"
+            style={{ color: 'inherit' }}
           >
-            <span>View All Categories</span>
-            <ChevronRight className="w-4 h-4" />
+            <div className="my-ownchoice-con">
+              <h2 className="my-ownchoice-heading text-white">
+                My OWN <span>Choice Number</span>
+              </h2>
+              <div className="my-ownchoice-img">
+                <img src="https://www.vipnumbersclub.com/assets/front/img/question-mark-icon.svg" alt="Question Mark" />
+              </div>
+            </div>
+            <div className="box-footer box-footer-justify d-flex justify-content-between align-items-center">
+              <span className="box-footer-a" style={{ color: '#ECAE01', fontWeight: 'bold' }}>Click Here</span>
+              <p className="mb-0">For Specific Requirement</p>
+            </div>
           </Link>
         </div>
+      </section>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mt-6">
-          {POPULAR_CATEGORIES.slice(1, 7).map(cat => (
-            <Link
-              key={cat.id}
-              to={`/search-results?category=${cat.id}`}
-              className="p-4 rounded-2xl bg-dark-card border border-dark-border hover:border-gold/50 hover:bg-dark-elevated transition-all duration-200 group flex flex-col justify-between"
-            >
-              <div className="w-8 h-8 rounded-xl bg-gold/10 text-gold flex items-center justify-center font-bold text-xs mb-3 group-hover:scale-110 transition-transform">
-                <Sparkles className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-gold transition-colors line-clamp-1">
-                  {cat.name}
-                </h4>
-                <span className="text-[11px] text-white/50 mt-1 block">
-                  {cat.count}+ Available
-                </span>
-              </div>
-            </Link>
-          ))}
+      {/* 5. VVIP HIGH END NUMBERS */}
+      {renderNumberSection("VVIP HIGH END NUMBERS", vvipNumbers, "vvip-high-end")}
+
+      {/* 6. VIDEO / PROMO SLIDER (.video-s) */}
+      <section className="video-s padding-70 py-4">
+        <div className="container">
+          <div className="video-s-in">
+            <div className="video-slider">
+              {videoBanners.map((vBanner, i) => (
+                <div key={i} className="item">
+                  <div className="video-s-itm">
+                    <img
+                      src={vBanner}
+                      alt={`Platform showcase ${i + 1}`}
+                      className="w-100 rounded-4 d-block object-fit-cover"
+                      style={{ height: '200px', objectFit: 'cover', borderRadius: '15px' }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 4. "My OWN Choice Number" Custom Requirement Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl bg-gradient-to-r from-dark-card via-dark-elevated to-dark-card border border-gold/40 p-8 sm:p-10 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-3 text-center md:text-left z-10">
-            <span className="text-xs font-bold uppercase tracking-widest text-gold">
-              Personalized Sourcing
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Looking for Your <span className="text-gold">Own Choice</span> Number?
+      {/* 7. MOST CLICKED NUMBERS */}
+      {renderNumberSection("Most Clicked Numbers", mostClickedNumbers, "super-sale-zone")}
+
+      {/* 8. 0 LOVERS (MAXIMUM ZEROS) */}
+      {renderNumberSection("0 Lovers ( Maximum Zeros )", zeroLoversNumbers, "0-lovers")}
+
+      {/* 9. AB-AB-AB ENDING SPECIAL */}
+      {renderNumberSection("AB-AB-AB Ending Special", ababNumbers, "abab-ending")}
+
+      {/* 10. SUPER HELPLINE SERIES (6) */}
+      {renderNumberSection("Super Helpline Series (6)", helplineNumbers.length > 0 ? helplineNumbers : vvipNumbers, "super-helpline")}
+
+      {/* 11. 786 NUMBERS */}
+      {renderNumberSection("786 Numbers", numbers786, "786-numbers")}
+
+      {/* 12. TETRA NUMBERS */}
+      {renderNumberSection("Tetra Numbers", tetraNumbers, "tetra-numbers")}
+
+      {/* 13. MIRROR NUMBERS */}
+      {renderNumberSection("Mirror Numbers", mirrorNumbers, "mirror-numbers")}
+
+      {/* 14. PENTA NUMBERS */}
+      {renderNumberSection("Penta Numbers", pentaNumbers, "penta-numbers")}
+
+      {/* 15. BUDGET FRIENDLY NUMBERS */}
+      {renderNumberSection("Budget Friendly Numbers", budgetNumbers, "budget-friendly")}
+
+      {/* 16. LUCKY NUMBERS (ROOT SUM 1) */}
+      {renderNumberSection("Lucky Numbers (Root Sum 1)", luckyRoot1, "lucky-sum-1")}
+
+      {/* 17. 3-STEP ACTIVATION STEPS (.steps) */}
+      <section className="steps steps-before-step padding-70 py-5">
+        <div className="container">
+          <div className="steps-itms">
+            <div className="row">
+              <div className="col-xl-4 col-md-4 mt-3">
+                <div
+                  className="steps-itm p-4 rounded-4"
+                  style={{ background: '#090808', border: '1px solid #404040', borderRadius: '15px' }}
+                >
+                  <div className="steps-itm-con text-center mb-3">
+                    <div className="steps-itm-img mb-3">
+                      <img src="https://www.vipnumbersclub.com/assets/front/img/stp1.svg" alt="Step 1" style={{ height: '70px' }} />
+                    </div>
+                    <div className="steps-itm-info">
+                      <h4 className="text-white fw-bold">India’s Biggest Inventory</h4>
+                    </div>
+                  </div>
+                  <div className="step-footer text-center pt-2 border-top border-secondary">
+                    <p className="text-muted mb-0" style={{ fontSize: '12px' }}>3,00,000 + VIP Numbers to choose from</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-xl-4 col-md-4 mt-3">
+                <div
+                  className="steps-itm p-4 rounded-4"
+                  style={{ background: '#090808', border: '1px solid #404040', borderRadius: '15px' }}
+                >
+                  <div className="steps-itm-con text-center mb-3">
+                    <div className="steps-itm-img mb-3">
+                      <img src="https://www.vipnumbersclub.com/assets/front/img/stp2.svg" alt="Step 2" style={{ height: '70px' }} />
+                    </div>
+                    <div className="steps-itm-info">
+                      <h4 className="text-white fw-bold">Super Fast UPC Delivery</h4>
+                    </div>
+                  </div>
+                  <div className="step-footer text-center pt-2 border-top border-secondary">
+                    <p className="text-muted mb-0" style={{ fontSize: '12px' }}>100% Legal MNP Code Delivered on Mobile</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-xl-4 col-md-4 mt-3">
+                <div
+                  className="steps-itm p-4 rounded-4"
+                  style={{ background: '#090808', border: '1px solid #404040', borderRadius: '15px' }}
+                >
+                  <div className="steps-itm-con text-center mb-3">
+                    <div className="steps-itm-img mb-3">
+                      <img src="https://www.vipnumbersclub.com/assets/front/img/stp3.svg" alt="Step 3" style={{ height: '70px' }} />
+                    </div>
+                    <div className="steps-itm-info">
+                      <h4 className="text-white fw-bold">Expert Support (24*7)</h4>
+                    </div>
+                  </div>
+                  <div className="step-footer text-center pt-2 border-top border-secondary">
+                    <p className="text-muted mb-0" style={{ fontSize: '12px' }}>Ranvijay Helpline & Doorstep Delivery</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 18. SEO CONTENT SECTION (.seo-content) */}
+      <section className="seo-content padding-70 py-4">
+        <div className="container">
+          <div
+            className="p-4 rounded-4 text-muted text-xs leading-relaxed"
+            style={{ background: '#090808', border: '1px solid #2a2a2a', fontSize: '13px', lineHeight: '1.8' }}
+          >
+            <h3 className="text-white fw-bold mb-3" style={{ fontSize: '18px' }}>
+              Buy VIP Mobile Numbers Online in India with VIP Numbers Club
             </h3>
-            <p className="text-sm text-white/70 max-w-xl">
-              Have a specific car number match, birthdate sequence, or corporate vanity requirement? Our specialists will source it for you across all telecom circles.
+            <p className="mb-2">
+              Welcome to VIP Numbers Club, India's most trusted online destination for exclusive fancy mobile numbers, lucky numerology mobile numbers, and VVIP phone numbers. Established in 2009 in Jaipur, Rajasthan, we provide genuine vanity numbers with official Unique Porting Codes (UPC) compliant with TRAI and telecom guidelines.
+            </p>
+            <p className="mb-0">
+              Whether you are looking for an easy-to-remember business helpline number, a prestigious repetitive sequence (like 0000, 7777, 8888, 9999), an auspicious 786 series, or numbers with custom astrological sums, our extensive inventory guarantees the lowest prices in India backed by our 100% money-back guarantee.
             </p>
           </div>
-
-          <div className="shrink-0 z-10">
-            <a
-              href={`https://wa.me/${SITE_INFO.phoneRaw}?text=${encodeURIComponent('Hello Ranvijay, I have a specific custom VIP number requirement: ')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-gold to-gold-light hover:from-gold-light hover:to-gold text-dark-pure font-bold text-sm tracking-wide shadow-gold-md hover:scale-105 transition-all"
-            >
-              <span>Submit Specific Requirement</span>
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. VVIP HIGH END NUMBERS Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-baseline justify-between gap-2 pb-6 border-b border-dark-border">
-          <div>
-            <span className="text-xs font-bold text-gold uppercase tracking-wider">Top-Tier Vanity Digits</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-              VVIP High End Numbers
-            </h2>
-          </div>
-          <Link
-            to="/search-results?category=vvip-high-end"
-            className="text-xs font-semibold text-gold hover:text-gold-light inline-flex items-center gap-1.5 transition-colors"
-          >
-            <span>View All VVIP Numbers</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {vvipNumbers.map(number => (
-            <NumberCard key={number.id} number={number} />
-          ))}
-        </div>
-      </section>
-
-      {/* 6. Most Clicked Numbers Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-baseline justify-between gap-2 pb-6 border-b border-dark-border">
-          <div>
-            <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">High Demand</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-              Most Clicked Numbers
-            </h2>
-          </div>
-          <Link
-            to="/search-results?sort=price_high_to_low"
-            className="text-xs font-semibold text-gold hover:text-gold-light inline-flex items-center gap-1.5 transition-colors"
-          >
-            <span>View All Popular</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {mostClickedNumbers.map(number => (
-            <NumberCard key={number.id} number={number} />
-          ))}
-        </div>
-      </section>
-
-      {/* 7. Zero Lovers (Maximum Zeros) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-baseline justify-between gap-2 pb-6 border-b border-dark-border">
-          <div>
-            <span className="text-xs font-bold text-gold uppercase tracking-wider">Exclusive Symmetry</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-              0 Lovers (Maximum Zeros)
-            </h2>
-          </div>
-          <Link
-            to="/search-results?q=000"
-            className="text-xs font-semibold text-gold hover:text-gold-light inline-flex items-center gap-1.5 transition-colors"
-          >
-            <span>View All Zero Series</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {zeroLoversNumbers.map(number => (
-            <NumberCard key={number.id} number={number} />
-          ))}
-        </div>
-      </section>
-
-      {/* 8. 786 Auspicious Series */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-baseline justify-between gap-2 pb-6 border-b border-dark-border">
-          <div>
-            <span className="text-xs font-bold text-gold uppercase tracking-wider">Sacred & Blessed Digits</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-              786 Auspicious Numbers
-            </h2>
-          </div>
-          <Link
-            to="/search-results?q=786"
-            className="text-xs font-semibold text-gold hover:text-gold-light inline-flex items-center gap-1.5 transition-colors"
-          >
-            <span>View All 786 Series</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {auspicious786Numbers.map(number => (
-            <NumberCard key={number.id} number={number} />
-          ))}
-        </div>
-      </section>
-
-      {/* 9. Tetra & Penta Numbers */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-baseline justify-between gap-2 pb-6 border-b border-dark-border">
-          <div>
-            <span className="text-xs font-bold text-gold uppercase tracking-wider">Consecutive Repeats</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-              Tetra & Penta Numbers
-            </h2>
-          </div>
-          <Link
-            to="/search-results?category=tetra-numbers"
-            className="text-xs font-semibold text-gold hover:text-gold-light inline-flex items-center gap-1.5 transition-colors"
-          >
-            <span>View All Tetra/Penta</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {tetraNumbers.map(number => (
-            <NumberCard key={number.id} number={number} />
-          ))}
-        </div>
-      </section>
-
-      {/* 10. Budget Friendly Numbers (< ₹10,000) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-baseline justify-between gap-2 pb-6 border-b border-dark-border">
-          <div>
-            <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Unbeatable Value</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-              Budget Friendly Numbers (&lt; ₹10,000)
-            </h2>
-          </div>
-          <Link
-            to="/search-results?budgetMax=10000"
-            className="text-xs font-semibold text-gold hover:text-gold-light inline-flex items-center gap-1.5 transition-colors"
-          >
-            <span>View All Budget Numbers</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {budgetNumbers.map(number => (
-            <NumberCard key={number.id} number={number} />
-          ))}
-        </div>
-      </section>
-
-      {/* 11. Numerologically Lucky (Root Sum 1) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-baseline justify-between gap-2 pb-6 border-b border-dark-border">
-          <div>
-            <span className="text-xs font-bold text-gold uppercase tracking-wider">Surya / Sun Vibration</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-              Lucky Numbers (Root Sum 1)
-            </h2>
-          </div>
-          <Link
-            to="/search-results?total=1"
-            className="text-xs font-semibold text-gold hover:text-gold-light inline-flex items-center gap-1.5 transition-colors"
-          >
-            <span>View All Root 1</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {luckyRoot1Numbers.map(number => (
-            <NumberCard key={number.id} number={number} />
-          ))}
-        </div>
-      </section>
-
-      {/* 12. Corporate Clientele & Trust Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl bg-dark-card border border-dark-border p-8 sm:p-12 text-center space-y-6">
-          <span className="text-xs uppercase font-bold text-gold tracking-widest">
-            Trusted By Leading Enterprises & High-Profile Individuals
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-            VIP Portal Featured On Top Platforms
-          </h2>
-          <p className="text-sm text-white/60 max-w-2xl mx-auto">
-            From Fortune 500 corporate giants like Flipkart and Quess Corp to celebrated entrepreneurs, celebrities, and public figures across India.
-          </p>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 max-w-3xl mx-auto text-center">
-            <div className="p-4 rounded-xl bg-dark-surface border border-dark-border/60">
-              <div className="text-xl font-extrabold text-white font-mono">FLIPKART</div>
-              <div className="text-[11px] text-white/50 mt-1">Helpline Solutions</div>
-            </div>
-            <div className="p-4 rounded-xl bg-dark-surface border border-dark-border/60">
-              <div className="text-xl font-extrabold text-white font-mono">QUESS CORP</div>
-              <div className="text-[11px] text-white/50 mt-1">Corporate Vanity Series</div>
-            </div>
-            <div className="p-4 rounded-xl bg-dark-surface border border-dark-border/60">
-              <div className="text-xl font-extrabold text-gold font-mono">16+ YEARS</div>
-              <div className="text-[11px] text-white/50 mt-1">Operational Since 2009</div>
-            </div>
-            <div className="p-4 rounded-xl bg-dark-surface border border-dark-border/60">
-              <div className="text-xl font-extrabold text-emerald-400 font-mono">100% LEGAL</div>
-              <div className="text-[11px] text-white/50 mt-1">Official MNP Porting</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 13. 3-Step Legal Activation Guide */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center space-y-3 mb-12">
-          <span className="text-xs uppercase font-bold text-gold tracking-widest">Simple & Transparent</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-            How VIP Number Porting Works
-          </h2>
-          <p className="text-sm text-white/60 max-w-xl mx-auto">
-            Get your dream number registered legally in your own name within three simple steps.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="rounded-2xl bg-dark-card border border-dark-border p-6 space-y-4 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-gold/10 text-gold border border-gold/30 mx-auto flex items-center justify-center font-bold text-xl">
-              1
-            </div>
-            <h3 className="text-lg font-bold text-white">Choose Your Number</h3>
-            <p className="text-xs text-white/60 leading-relaxed">
-              Explore our verified catalogue of over 100+ genuine VIP mobile numbers or request a custom vanity sequence.
-            </p>
-          </div>
-
-          <div className="rounded-2xl bg-dark-card border border-dark-border p-6 space-y-4 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-gold/10 text-gold border border-gold/30 mx-auto flex items-center justify-center font-bold text-xl">
-              2
-            </div>
-            <h3 className="text-lg font-bold text-white">Book & Receive UPC</h3>
-            <p className="text-xs text-white/60 leading-relaxed">
-              Complete your booking. We generate an official Unique Porting Code (UPC) and send it directly to your mobile.
-            </p>
-          </div>
-
-          <div className="rounded-2xl bg-dark-card border border-dark-border p-6 space-y-4 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-gold/10 text-gold border border-gold/30 mx-auto flex items-center justify-center font-bold text-xl">
-              3
-            </div>
-            <h3 className="text-lg font-bold text-white">Activate on Any SIM</h3>
-            <p className="text-xs text-white/60 leading-relaxed">
-              Visit any local Jio, Airtel, Vi, or BSNL store or opt for home delivery to complete Aadhaar/Govt ID verification.
-            </p>
-          </div>
-        </div>
-
-        <div className="text-center mt-8">
-          <Link
-            to="/process"
-            className="inline-flex items-center gap-2 text-xs font-bold text-gold hover:text-gold-light transition-colors"
-          >
-            <span>Read full activation guidelines & operator rules</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
-
-      {/* 14. SEO Content Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 rounded-2xl bg-dark-surface/60 border border-dark-border/60 text-xs text-white/60 space-y-4 leading-relaxed">
-          <h3 className="text-sm font-bold text-white">
-            Buy VIP Mobile Numbers Online in India with VIP Numbers Club
-          </h3>
-          <p>
-            Welcome to VIP Numbers Club, India's most trusted online destination for exclusive fancy mobile numbers, lucky numerology mobile numbers, and VVIP phone numbers. Established in 2009 in Jaipur, Rajasthan, we provide genuine vanity numbers with official Unique Porting Codes (UPC) compliant with TRAI and telecom guidelines.
-          </p>
-          <p>
-            Whether you are looking for an easy-to-remember business helpline number, a prestigious repetitive sequence (like 0000, 7777, 8888, 9999), an auspicious 786 series, or numbers with custom astrological sums, our extensive inventory guarantees the lowest prices in India backed by our 100% money-back guarantee.
-          </p>
         </div>
       </section>
     </div>

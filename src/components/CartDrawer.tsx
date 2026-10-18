@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { SITE_INFO } from '../data/siteInfo';
-import { X, Trash2, ShoppingCart, MessageCircle, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Trash2, ShoppingCart, MessageCircle, ArrowRight, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const CartDrawer: React.FC = () => {
@@ -37,79 +37,156 @@ Hello Ranvijay, I would like to book these numbers. Please confirm availability 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/75 backdrop-blur-sm animate-fadeIn">
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        display: 'flex',
+        justifyContent: 'flex-end',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)'
+      }}
+    >
       {/* Click outside backdrop */}
-      <div className="absolute inset-0" onClick={() => setIsCartOpen(false)} />
+      <div
+        style={{ position: 'absolute', inset: 0 }}
+        onClick={() => setIsCartOpen(false)}
+      />
 
       {/* Drawer Panel */}
-      <div className="relative w-full max-w-md bg-dark-card border-l border-dark-border h-full flex flex-col z-10 shadow-2xl animate-slide-up">
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '440px',
+          background: '#090808',
+          borderLeft: '1px solid #404040',
+          boxShadow: '-10px 0 30px rgba(0,0,0,0.8)',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          zIndex: 10
+        }}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-dark-border">
-          <div className="flex items-center gap-2.5">
-            <ShoppingCart className="w-5 h-5 text-gold" />
-            <h3 className="font-bold text-white text-base">Your Number Cart</h3>
-            <span className="px-2 py-0.5 rounded-full bg-gold/15 text-gold text-xs font-semibold">
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '20px 24px',
+            borderBottom: '1px solid #222'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <ShoppingCart style={{ width: '20px', height: '20px', color: '#ECAE01' }} />
+            <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#fff', margin: 0 }}>
+              Your Number Cart
+            </h3>
+            <span
+              style={{
+                background: 'rgba(236, 174, 1, 0.15)',
+                color: '#ECAE01',
+                borderRadius: '50px',
+                padding: '2px 10px',
+                fontSize: '12px',
+                fontWeight: 700,
+                border: '1px solid rgba(236, 174, 1, 0.3)'
+              }}
+            >
               {cart.length}
             </span>
           </div>
           <button
             onClick={() => setIsCartOpen(false)}
-            className="p-1.5 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '6px'
+            }}
             aria-label="Close cart"
           >
-            <X className="w-5 h-5" />
+            <img src="https://www.vipnumbersclub.com/assets/front/img/cross-ic.svg" alt="Close" style={{ width: '16px', height: '16px' }} />
           </button>
         </div>
 
         {/* Content */}
         {cart.length === 0 ? (
-          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-4">
-            <div className="w-16 h-16 rounded-full bg-dark-surface border border-dark-border flex items-center justify-center text-white/30">
-              <ShoppingCart className="w-8 h-8" />
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '30px', textAlign: 'center', gap: '15px' }}>
+            <div style={{ width: '70px', height: '70px', borderRadius: '50%', background: '#111', border: '1px solid #333', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#555' }}>
+              <ShoppingCart style={{ width: '32px', height: '32px' }} />
             </div>
-            <div className="space-y-1">
-              <h4 className="text-base font-semibold text-white">Your cart is empty</h4>
-              <p className="text-xs text-white/50 max-w-xs">
+            <div>
+              <h4 style={{ color: '#fff', fontSize: '18px', fontWeight: 600, marginBottom: '6px' }}>Your cart is empty</h4>
+              <p style={{ color: '#777', fontSize: '13px', maxWidth: '280px', margin: '0 auto' }}>
                 Explore our catalog of exclusive VIP mobile numbers and add your favorite numbers.
               </p>
             </div>
             <Link
               to="/search-results"
               onClick={() => setIsCartOpen(false)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold text-dark-pure font-bold text-xs tracking-wide shadow-gold-sm hover:bg-gold-light transition-all"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 22px',
+                borderRadius: '80px',
+                background: '#ECAE01',
+                color: '#000',
+                fontWeight: 700,
+                fontSize: '13px',
+                textDecoration: 'none',
+                marginTop: '10px'
+              }}
             >
               <span>Browse Numbers</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight style={{ width: '16px', height: '16px' }} />
             </Link>
           </div>
         ) : (
-          <div className="flex-1 overflow-y-auto p-5 space-y-3">
+          <div style={{ flex: 1, overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {cart.map(item => (
               <div
                 key={item.number.id}
-                className="p-4 rounded-xl bg-dark-surface border border-dark-border/80 flex items-center justify-between gap-4 group hover:border-gold/30 transition-all"
+                style={{
+                  padding: '16px',
+                  borderRadius: '14px',
+                  background: '#111',
+                  border: '1px solid #333',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '12px'
+                }}
               >
-                <div className="space-y-1 min-w-0">
-                  <div className="font-mono text-base font-bold text-white tracking-wider truncate">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div style={{ fontFamily: 'monospace', fontSize: '17px', fontWeight: 800, color: '#fff' }}>
                     {item.number.displayNumber}
                   </div>
-                  <div className="flex items-center gap-2 text-xs">
-                    <span className="text-gold font-bold">{item.number.price}</span>
-                    <span className="text-white/30 line-through text-[11px]">{item.number.originalPrice}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}>
+                    <span style={{ color: '#ECAE01', fontWeight: 800 }}>{item.number.price}</span>
+                    <span style={{ color: '#666', textDecoration: 'line-through', fontSize: '12px' }}>{item.number.originalPrice}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-[10px] text-white/50">
-                    <span className="uppercase font-semibold">{item.simType}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', color: '#888' }}>
+                    <span style={{ textTransform: 'uppercase', fontWeight: 600 }}>{item.simType}</span>
                     <span>•</span>
-                    <span className="uppercase font-semibold">{item.network}</span>
+                    <span style={{ textTransform: 'uppercase', fontWeight: 600 }}>{item.network}</span>
                   </div>
                 </div>
 
                 <button
                   onClick={() => removeFromCart(item.number.id)}
-                  className="p-2 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-colors shrink-0"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#666',
+                    padding: '8px'
+                  }}
                   title="Remove from cart"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 style={{ width: '16px', height: '16px' }} />
                 </button>
               </div>
             ))}
@@ -118,34 +195,56 @@ Hello Ranvijay, I would like to book these numbers. Please confirm availability 
 
         {/* Footer with Total and WhatsApp Checkout */}
         {cart.length > 0 && (
-          <div className="p-5 border-t border-dark-border bg-dark-surface/50 space-y-4">
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs text-white/60">
+          <div style={{ padding: '20px', borderTop: '1px solid #222', background: '#090808', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#888' }}>
                 <span>Total Items:</span>
-                <span className="font-medium text-white">{cart.length} Numbers</span>
+                <span style={{ color: '#fff', fontWeight: 600 }}>{cart.length} Numbers</span>
               </div>
-              <div className="flex justify-between items-baseline">
-                <span className="text-sm font-semibold text-white">Estimated Total:</span>
-                <span className="text-2xl font-extrabold text-gold">{formatCurrency(totalAmount)}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                <span style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>Estimated Total:</span>
+                <span style={{ fontSize: '24px', fontWeight: 800, color: '#ECAE01' }}>{formatCurrency(totalAmount)}</span>
               </div>
-              <div className="text-[11px] text-white/40 flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <div style={{ fontSize: '11px', color: '#666', display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
+                <ShieldCheck style={{ width: '14px', height: '14px', color: '#10b981' }} />
                 <span>100% Money-back guarantee until activation</span>
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <button
                 onClick={handleWhatsAppCheckout}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-950/40 transition-all hover:scale-[1.02]"
+                style={{
+                  width: '100%',
+                  background: '#25D366',
+                  color: '#fff',
+                  fontWeight: 700,
+                  padding: '14px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: '0 4px 20px rgba(37, 211, 102, 0.3)'
+                }}
               >
-                <MessageCircle className="w-5 h-5 fill-white" />
+                <MessageCircle style={{ width: '20px', height: '20px', fill: '#fff' }} />
                 <span>Order All via WhatsApp</span>
               </button>
 
               <button
                 onClick={clearCart}
-                className="w-full text-center text-xs text-white/40 hover:text-white py-1 transition-colors"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#666',
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  padding: '6px'
+                }}
               >
                 Clear Entire Cart
               </button>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { SITE_INFO } from '../data/siteInfo';
-import { X, MessageCircle, PhoneCall, ShieldCheck, CheckCircle2, Truck, FileText } from 'lucide-react';
+import { MessageCircle, PhoneCall, ShieldCheck, CheckCircle2, Truck, FileText } from 'lucide-react';
 
 export const BookingModal: React.FC = () => {
   const { bookingTargetNumber, closeBookingModal, showToast } = useApp();
@@ -52,194 +52,314 @@ Hello Ranvijay, I would like to book this VIP number immediately. Please confirm
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-lg rounded-3xl bg-dark-card border border-dark-border p-6 sm:p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
-        {/* Close button */}
-        <button
-          onClick={closeBookingModal}
-          className="absolute top-5 right-5 p-2 rounded-full text-white/50 hover:text-white hover:bg-white/10 transition-colors"
-          aria-label="Close modal"
+    <div
+      className="modal fade show"
+      tabIndex={-1}
+      role="dialog"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.85)',
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        padding: '15px'
+      }}
+    >
+      <div
+        className="modal-dialog modal-dialog-centered"
+        style={{
+          maxWidth: '540px',
+          width: '100%',
+          margin: 'auto'
+        }}
+      >
+        <div
+          className="modal-content"
+          style={{
+            background: '#090808',
+            border: '1px solid #ECAE01',
+            borderRadius: '20px',
+            boxShadow: '0px 0px 34px rgba(236, 174, 1, 0.28)',
+            position: 'relative',
+            maxHeight: '90vh',
+            overflowY: 'auto'
+          }}
         >
-          <X className="w-5 h-5" />
-        </button>
+          <div className="modal-body" style={{ padding: '30px 25px', position: 'relative' }}>
+            {/* Original Close button */}
+            <button
+              type="button"
+              className="btn-close"
+              aria-label="Close"
+              onClick={closeBookingModal}
+              style={{
+                position: 'absolute',
+                right: '20px',
+                top: '20px',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                zIndex: 10,
+                opacity: 1
+              }}
+            >
+              <img src="https://www.vipnumbersclub.com/assets/front/img/cross-ic.svg" alt="Close" />
+            </button>
 
-        {isSubmitted ? (
-          <div className="py-12 text-center space-y-4">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 mx-auto flex items-center justify-center border border-emerald-500/20">
-              <CheckCircle2 className="w-8 h-8" />
-            </div>
-            <h3 className="text-xl font-bold text-white">Booking Request Received</h3>
-            <p className="text-sm text-white/70 max-w-xs mx-auto">
-              Our executive Ranvijay has received your interest for <strong className="text-gold font-mono">{bookingTargetNumber.displayNumber}</strong>. We will call you within 15 minutes.
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            {/* Header with target number */}
-            <div className="text-center pb-4 border-b border-dark-border space-y-2">
-              <span className="text-xs font-semibold text-gold uppercase tracking-wider">
-                Direct Booking & Activation
-              </span>
-              <div className="text-2xl sm:text-3xl font-mono font-bold tracking-wider text-white">
-                {bookingTargetNumber.displayNumber}
+            {isSubmitted ? (
+              <div style={{ padding: '40px 10px', textAlign: 'center' }}>
+                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', margin: '0 auto 20px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                  <CheckCircle2 style={{ width: '36px', height: '36px' }} />
+                </div>
+                <h3 style={{ color: '#fff', fontSize: '22px', fontWeight: 700, marginBottom: '10px' }}>
+                  Booking Request Received
+                </h3>
+                <p style={{ color: '#aaa', fontSize: '14px', maxWidth: '320px', margin: '0 auto' }}>
+                  Our executive Ranvijay has received your interest for <strong style={{ color: '#ECAE01' }}>{bookingTargetNumber.displayNumber}</strong>. We will call you within 15 minutes.
+                </p>
               </div>
-              <div className="flex items-center justify-center gap-3">
-                <span className="text-sm text-white/40 line-through">
-                  {bookingTargetNumber.originalPrice}
-                </span>
-                <span className="text-2xl font-extrabold text-gold">
-                  {bookingTargetNumber.price}
-                </span>
-              </div>
-            </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                {/* Target Number Display */}
+                <div style={{ textAlign: 'center', borderBottom: '1px solid #222', paddingBottom: '18px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#ECAE01', textTransform: 'uppercase', letterSpacing: '2px' }}>
+                    Direct Booking & Instant Activation
+                  </span>
+                  <div style={{ fontSize: '32px', fontWeight: 800, color: '#fff', letterSpacing: '1px', marginTop: '6px' }}>
+                    {bookingTargetNumber.displayNumber}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginTop: '4px' }}>
+                    <span style={{ color: '#666', textDecoration: 'line-through', fontSize: '14px' }}>
+                      {bookingTargetNumber.originalPrice}
+                    </span>
+                    <span style={{ color: '#ECAE01', fontSize: '24px', fontWeight: 800 }}>
+                      {bookingTargetNumber.price}
+                    </span>
+                  </div>
+                </div>
 
-            {/* Connection Type: Prepaid vs Postpaid */}
-            <div className="space-y-2">
-              <label className="text-xs font-semibold uppercase text-white/70 tracking-wider">
-                1. Select Connection Type
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setSimType('prepaid')}
-                  className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all ${
-                    simType === 'prepaid'
-                      ? 'bg-gold/15 border-gold text-gold'
-                      : 'bg-dark-surface border-dark-border text-white/70 hover:text-white'
-                  }`}
-                >
-                  Prepaid SIM
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSimType('postpaid')}
-                  className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all ${
-                    simType === 'postpaid'
-                      ? 'bg-gold/15 border-gold text-gold'
-                      : 'bg-dark-surface border-dark-border text-white/70 hover:text-white'
-                  }`}
-                >
-                  Postpaid SIM
-                </button>
-              </div>
-            </div>
+                {/* Connection Type */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#aaa', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>
+                    1. Select Connection Type
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <button
+                      type="button"
+                      onClick={() => setSimType('prepaid')}
+                      style={{
+                        padding: '10px',
+                        borderRadius: '10px',
+                        fontSize: '13px',
+                        fontWeight: 600,
+                        border: simType === 'prepaid' ? '1px solid #ECAE01' : '1px solid #333',
+                        background: simType === 'prepaid' ? 'rgba(236, 174, 1, 0.15)' : '#000',
+                        color: simType === 'prepaid' ? '#ECAE01' : '#aaa',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Prepaid SIM
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSimType('postpaid')}
+                      style={{
+                        padding: '10px',
+                        borderRadius: '10px',
+                        fontSize: '13px',
+                        fontWeight: 600,
+                        border: simType === 'postpaid' ? '1px solid #ECAE01' : '1px solid #333',
+                        background: simType === 'postpaid' ? 'rgba(236, 174, 1, 0.15)' : '#000',
+                        color: simType === 'postpaid' ? '#ECAE01' : '#aaa',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Postpaid SIM
+                    </button>
+                  </div>
+                </div>
 
-            {/* Preferred Network */}
-            <div className="space-y-2">
-              <label className="text-xs font-semibold uppercase text-white/70 tracking-wider">
-                2. Select Telecom Network
-              </label>
-              <div className="grid grid-cols-5 gap-2">
-                {(['jio', 'airtel', 'vi', 'bsnl', 'any'] as const).map(net => (
+                {/* Telecom Network */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#aaa', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>
+                    2. Preferred Telecom Network
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px' }}>
+                    {(['jio', 'airtel', 'vi', 'bsnl', 'any'] as const).map(net => (
+                      <button
+                        key={net}
+                        type="button"
+                        onClick={() => setNetwork(net)}
+                        style={{
+                          padding: '8px 4px',
+                          borderRadius: '8px',
+                          fontSize: '12px',
+                          fontWeight: 700,
+                          textTransform: 'uppercase',
+                          border: network === net ? '1px solid #ECAE01' : '1px solid #333',
+                          background: network === net ? 'rgba(236, 174, 1, 0.15)' : '#000',
+                          color: network === net ? '#ECAE01' : '#aaa',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {net}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Activation / Delivery */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#aaa', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>
+                    3. Activation & Fulfillment
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <button
+                      type="button"
+                      onClick={() => setDeliveryType('online_upc')}
+                      style={{
+                        padding: '12px',
+                        borderRadius: '12px',
+                        textAlign: 'left',
+                        border: deliveryType === 'online_upc' ? '1px solid #ECAE01' : '1px solid #333',
+                        background: deliveryType === 'online_upc' ? 'rgba(236, 174, 1, 0.12)' : '#000',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '8px'
+                      }}
+                    >
+                      <FileText style={{ width: '18px', height: '18px', color: '#ECAE01', flexShrink: 0, marginTop: '2px' }} />
+                      <div>
+                        <div style={{ color: '#fff', fontSize: '12px', fontWeight: 700 }}>Instant Online UPC</div>
+                        <div style={{ color: '#777', fontSize: '11px' }}>Fastest MNP code via SMS</div>
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setDeliveryType('home_delivery')}
+                      style={{
+                        padding: '12px',
+                        borderRadius: '12px',
+                        textAlign: 'left',
+                        border: deliveryType === 'home_delivery' ? '1px solid #ECAE01' : '1px solid #333',
+                        background: deliveryType === 'home_delivery' ? 'rgba(236, 174, 1, 0.12)' : '#000',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '8px'
+                      }}
+                    >
+                      <Truck style={{ width: '18px', height: '18px', color: '#ECAE01', flexShrink: 0, marginTop: '2px' }} />
+                      <div>
+                        <div style={{ color: '#fff', fontSize: '12px', fontWeight: 700 }}>Doorstep Delivery</div>
+                        <div style={{ color: '#777', fontSize: '11px' }}>COD with KYC verification</div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Input Fields */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <input
+                    type="text"
+                    placeholder="Your Name (optional)"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    style={{
+                      width: '100%',
+                      background: '#000',
+                      border: '1px solid #333',
+                      borderRadius: '10px',
+                      padding: '10px 12px',
+                      color: '#fff',
+                      fontSize: '12px'
+                    }}
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Your Mobile Number *"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    style={{
+                      width: '100%',
+                      background: '#000',
+                      border: '1px solid #333',
+                      borderRadius: '10px',
+                      padding: '10px 12px',
+                      color: '#fff',
+                      fontSize: '12px'
+                    }}
+                  />
+                </div>
+
+                {/* Buttons */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '5px' }}>
                   <button
-                    key={net}
                     type="button"
-                    onClick={() => setNetwork(net)}
-                    className={`py-2 px-1 rounded-xl text-xs font-bold uppercase transition-all border ${
-                      network === net
-                        ? 'bg-gold/15 border-gold text-gold'
-                        : 'bg-dark-surface border-dark-border text-white/60 hover:text-white'
-                    }`}
+                    onClick={handleWhatsAppBooking}
+                    style={{
+                      width: '100%',
+                      background: '#25D366',
+                      color: '#fff',
+                      fontWeight: 700,
+                      padding: '14px',
+                      borderRadius: '12px',
+                      border: 'none',
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      boxShadow: '0 4px 20px rgba(37, 211, 102, 0.3)'
+                    }}
                   >
-                    {net}
+                    <MessageCircle style={{ width: '20px', height: '20px', fill: '#fff' }} />
+                    <span>Book Instantly on WhatsApp</span>
                   </button>
-                ))}
+
+                  <button
+                    type="button"
+                    onClick={handleCallbackSubmit}
+                    style={{
+                      width: '100%',
+                      background: '#111',
+                      color: '#ccc',
+                      fontWeight: 600,
+                      padding: '12px',
+                      borderRadius: '12px',
+                      border: '1px solid #333',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <PhoneCall style={{ width: '14px', height: '14px', color: '#ECAE01' }} />
+                    <span>Request 15-Minute Callback from Ranvijay</span>
+                  </button>
+                </div>
+
+                {/* Badges */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', borderTop: '1px solid #1a1a1a', paddingTop: '12px', color: '#666', fontSize: '11px' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <ShieldCheck style={{ width: '14px', height: '14px', color: '#ECAE01' }} /> 100% Legal MNP Transfer
+                  </span>
+                  <span>•</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <CheckCircle2 style={{ width: '14px', height: '14px', color: '#10b981' }} /> Full Money-Back Guarantee
+                  </span>
+                </div>
               </div>
-            </div>
-
-            {/* Delivery Option */}
-            <div className="space-y-2">
-              <label className="text-xs font-semibold uppercase text-white/70 tracking-wider">
-                3. Activation / Delivery Option
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setDeliveryType('online_upc')}
-                  className={`p-3 rounded-xl text-left border transition-all flex items-start gap-2.5 ${
-                    deliveryType === 'online_upc'
-                      ? 'bg-gold/10 border-gold text-white'
-                      : 'bg-dark-surface border-dark-border text-white/60 hover:text-white'
-                  }`}
-                >
-                  <FileText className="w-4 h-4 text-gold shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-xs font-bold text-white">Instant UPC Code</div>
-                    <div className="text-[11px] text-white/50">Online code, activate at any store</div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setDeliveryType('home_delivery')}
-                  className={`p-3 rounded-xl text-left border transition-all flex items-start gap-2.5 ${
-                    deliveryType === 'home_delivery'
-                      ? 'bg-gold/10 border-gold text-white'
-                      : 'bg-dark-surface border-dark-border text-white/60 hover:text-white'
-                  }`}
-                >
-                  <Truck className="w-4 h-4 text-gold shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-xs font-bold text-white">Home Delivery (COD)</div>
-                    <div className="text-[11px] text-white/50">Doorstep KYC verification</div>
-                  </div>
-                </button>
-              </div>
-            </div>
-
-            {/* Optional Contact Inputs */}
-            <div className="space-y-3 pt-2">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <input
-                  type="text"
-                  placeholder="Your Name (optional)"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-dark-surface border border-dark-border rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none focus:border-gold"
-                />
-                <input
-                  type="tel"
-                  placeholder="Your Mobile Number *"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-dark-surface border border-dark-border rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none focus:border-gold"
-                />
-              </div>
-            </div>
-
-            {/* Primary Action Buttons */}
-            <div className="space-y-2 pt-2">
-              <button
-                type="button"
-                onClick={handleWhatsAppBooking}
-                className="w-full flex items-center justify-center gap-2.5 py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-950/40 transition-all hover:scale-[1.02]"
-              >
-                <MessageCircle className="w-5 h-5 fill-white" />
-                <span>Book Instantly on WhatsApp</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={handleCallbackSubmit}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-dark-surface hover:bg-dark-elevated text-white/80 hover:text-white font-medium text-xs border border-dark-border transition-colors"
-              >
-                <PhoneCall className="w-3.5 h-3.5 text-gold" />
-                <span>Request 15-Minute Call Back from Ranvijay</span>
-              </button>
-            </div>
-
-            {/* Guarantees micro-copy */}
-            <div className="flex items-center justify-center gap-4 text-[11px] text-white/50 pt-2 border-t border-dark-border/40">
-              <span className="flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-gold" /> 100% Legal MNP
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Full Refund Protection
-              </span>
-            </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
