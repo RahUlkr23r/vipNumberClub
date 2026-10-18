@@ -51,100 +51,116 @@ export const NumerologySearchPage: React.FC = () => {
   }, [startWith, anyWhere, endWith, mustContain, notContain, total, sum]);
 
   return (
-    <div className="main-content py-4">
-      {/* 1. ORIGINAL NUMEROLOGY SEARCH FORM SECTION */}
-      <section className="numerology-search-form padding-50 py-5" id="numerology-search">
+    <div className="numerology-page">
+      {/* 1. ORIGINAL NUMEROLOGY HERO BANNER WITH BABA GRAPHIC */}
+      <section className="numerology-search">
         <div className="container">
-          <div
-            className="numerology-search-form-in p-4 p-md-5 rounded-4"
-            style={{ background: '#090808', border: '1px solid #404040', borderRadius: '20px' }}
-          >
-            <h2 className="text-white fw-bold mb-4" style={{ fontSize: '28px' }}>
-              Numerology Search
-            </h2>
+          <div className="numerology-search-in">
+            <h4>Numerology Number is Important because...</h4>
+            <p>Every number is believed to possess either positive or negative energy, depending on one's date of birth.</p>
+            <p>The appropriate number is thought to align with your destiny, thereby assisting in both career and personal development. This alignment can lead to increased clarity and the ability to navigate challenges with grace and positive strength.</p>
+            <div className="numerology-search-btn">
+              <a href="#numerology-search-form" className="btn btn-numerology">
+                Numerology Search <img src="https://www.vipnumbersclub.com/assets/front/img/right-arrow-search.svg" alt="arrow" />
+              </a>
+            </div>
 
+            <div className="numerology-search-baba">
+              <div className="rotate-img">
+                <img src="https://www.vipnumbersclub.com/assets/front/img/numerology-circle.png" alt="Numerology Circle" />
+              </div>
+              <img className="numerology-search-baba-img" src="https://www.vipnumbersclub.com/assets/front/img/baba.png" alt="Numerology Astrologer" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. NUMEROLOGY SEARCH CRITERIA FORM */}
+      <section className="numerology-search-form padding-50" id="numerology-search-form">
+        <div className="container">
+          <div className="numerology-search-form-in">
+            <h2>Numerology Search</h2>
             <form
               className="numerology-search-form-itms"
               onSubmit={(e) => e.preventDefault()}
             >
-              <div className="row g-3">
-                <div className="col-md-4 col-sm-6">
-                  <div className="form-group text-start">
-                    <label className="text-white text-xs mb-1 d-block font-weight-bold">Start With</label>
+              <div className="row">
+                <div className="col-4">
+                  <div className="form-group">
+                    <label>Start With</label>
                     <input
                       type="text"
-                      className="form-control"
-                      style={{ background: '#000', border: '1px solid #404040', color: '#fff' }}
+                      className="form-control number-only"
                       placeholder="Eg. 915"
+                      maxLength={10}
                       value={startWith}
                       onChange={(e) => setStartWith(e.target.value)}
                     />
                   </div>
                 </div>
 
-                <div className="col-md-4 col-sm-6">
-                  <div className="form-group text-start">
-                    <label className="text-white text-xs mb-1 d-block font-weight-bold">Any Where</label>
+                <div className="col-4">
+                  <div className="form-group">
+                    <label>Any Where</label>
                     <input
                       type="text"
-                      className="form-control"
-                      style={{ background: '#000', border: '1px solid #404040', color: '#fff' }}
+                      className="form-control number-only"
                       placeholder="Eg. 1117"
+                      maxLength={10}
                       value={anyWhere}
                       onChange={(e) => setAnyWhere(e.target.value)}
                     />
                   </div>
                 </div>
 
-                <div className="col-md-4 col-sm-6">
-                  <div className="form-group text-start">
-                    <label className="text-white text-xs mb-1 d-block font-weight-bold">End With</label>
+                <div className="col-4">
+                  <div className="form-group">
+                    <label>End With</label>
                     <input
                       type="text"
-                      className="form-control"
-                      style={{ background: '#000', border: '1px solid #404040', color: '#fff' }}
+                      className="form-control number-only"
                       placeholder="Eg. 555"
+                      maxLength={10}
                       value={endWith}
                       onChange={(e) => setEndWith(e.target.value)}
                     />
                   </div>
                 </div>
 
-                <div className="col-md-6 col-sm-6">
-                  <div className="form-group text-start">
-                    <label className="text-white text-xs mb-1 d-block font-weight-bold">Must Contain</label>
+                <div className="col-5">
+                  <div className="form-group">
+                    <label>Must Contain</label>
                     <input
                       type="text"
                       className="form-control"
-                      style={{ background: '#000', border: '1px solid #404040', color: '#fff' }}
                       placeholder="Eg. 11,69,3"
+                      maxLength={20}
                       value={mustContain}
                       onChange={(e) => setMustContain(e.target.value)}
                     />
                   </div>
                 </div>
 
-                <div className="col-md-6 col-sm-6">
-                  <div className="form-group text-start">
-                    <label className="text-white text-xs mb-1 d-block font-weight-bold">Not Contain</label>
+                <div className="col-5">
+                  <div className="form-group">
+                    <label>Not Contain</label>
                     <input
                       type="text"
                       className="form-control"
-                      style={{ background: '#000', border: '1px solid #404040', color: '#fff' }}
                       placeholder="Eg. 5,71"
+                      maxLength={500}
                       value={notContain}
                       onChange={(e) => setNotContain(e.target.value)}
                     />
                   </div>
                 </div>
 
-                <div className="col-md-6 col-sm-6">
-                  <div className="form-group text-start">
-                    <label className="text-white text-xs mb-1 d-block font-weight-bold">TOTAL</label>
+                <div className="col-5">
+                  <div className="form-group">
+                    <label>TOTAL</label>
                     <input
                       type="text"
-                      className="form-control"
-                      style={{ background: '#000', border: '1px solid #404040', color: '#fff' }}
+                      className="form-control number-comma"
                       placeholder="Eg. 41, 42"
                       value={total}
                       onChange={(e) => setTotal(e.target.value)}
@@ -152,13 +168,12 @@ export const NumerologySearchPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="col-md-6 col-sm-6">
-                  <div className="form-group text-start">
-                    <label className="text-white text-xs mb-1 d-block font-weight-bold">SUM</label>
+                <div className="col-5">
+                  <div className="form-group">
+                    <label>SUM</label>
                     <input
                       type="text"
-                      className="form-control"
-                      style={{ background: '#000', border: '1px solid #404040', color: '#fff' }}
+                      className="form-control number-comma"
                       placeholder="Eg. 5, 6"
                       value={sum}
                       onChange={(e) => setSum(e.target.value)}
@@ -166,36 +181,39 @@ export const NumerologySearchPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="col-12 mt-4 text-start">
-                  <button
-                    type="submit"
-                    className="btn btn_primary btn-search-number d-inline-flex align-items-center gap-2"
-                    style={{
-                      background: '#ECAE01',
-                      color: '#000',
-                      fontWeight: 'bold',
-                      padding: '12px 30px',
-                      borderRadius: '8px',
-                      border: 'none',
-                      fontSize: '15px'
-                    }}
-                  >
-                    <span>Search Number</span>
-                    <img src="https://www.vipnumbersclub.com/assets/front/img/search-number.svg" alt="Search icon" />
-                  </button>
+                <div className="col-12">
+                  <div className="form-group">
+                    <button
+                      type="button"
+                      className="btn btn_primary btn-search-number"
+                      onClick={() => {
+                        const target = document.getElementById('results-section');
+                        if (target) target.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      Search Number <img src="https://www.vipnumbersclub.com/assets/front/img/search-number.svg" alt="Search" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </form>
 
-            {/* Original "Know My Lucky Number" Link */}
-            <div className="delivery-sec-in mt-4 pt-3 border-top border-secondary">
+            {/* Know My Lucky Number dropdown trigger */}
+            <div className="delivery-sec-in mt-3 text-center">
               <button
                 type="button"
+                className="select-sec"
                 onClick={() => setIsLuckyCalcModalOpen(true)}
-                className="select-sec text-white border-0 bg-transparent text-decoration-none d-inline-flex align-items-center gap-2 font-weight-bold"
-                style={{ color: '#ECAE01' }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '12px',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
               >
-                <span style={{ color: '#ECAE01', fontSize: '15px' }}>Know My Lucky Number</span>
+                <span>Know My Lucky Number</span>
                 <img src="https://www.vipnumbersclub.com/assets/front/img/down-select.svg" alt="Select" />
               </button>
             </div>
@@ -203,22 +221,47 @@ export const NumerologySearchPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. MATCHING RESULTS LIST */}
-      <section className="py-4">
+      {/* 3. MATCHING NUMEROLOGY RESULTS GRID */}
+      <section className="inner-number-box padding-70 pt-0" id="results-section">
         <div className="container">
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h3 className="text-white font-weight-bold" style={{ fontSize: '20px' }}>
-              Matching Numbers ({matchingNumbers.length})
+          <div className="d-flex align-items-center justify-content-between mb-4">
+            <h3 className="text-white fw-bold mb-0" style={{ fontSize: '22px' }}>
+              Matching Auspicious Numbers ({matchingNumbers.length})
             </h3>
+            {(startWith || anyWhere || endWith || mustContain || notContain || total || sum) && (
+              <button
+                type="button"
+                onClick={() => {
+                  setStartWith('');
+                  setAnyWhere('');
+                  setEndWith('');
+                  setMustContain('');
+                  setNotContain('');
+                  setTotal('');
+                  setSum('');
+                }}
+                className="btn btn-sm btn-outline-secondary text-white"
+                style={{ borderRadius: '20px' }}
+              >
+                Reset Criteria
+              </button>
+            )}
           </div>
 
           <div className="innernumberBox">
             <div className="row g-4">
-              {matchingNumbers.map(num => (
-                <div key={num.id} className="col-xl-4 col-lg-6 col-md-6">
-                  <NumberCard number={num} />
+              {matchingNumbers.length === 0 ? (
+                <div className="col-12 text-center py-5">
+                  <h4 className="text-white">No Numbers Found Matching Your Auspicious Vibration</h4>
+                  <p className="text-muted">Try broadening your search criteria or resetting specific exclusions.</p>
                 </div>
-              ))}
+              ) : (
+                matchingNumbers.map(number => (
+                  <div key={number.id} className="col-xl-4 col-lg-6 col-md-6">
+                    <NumberCard number={number} />
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>

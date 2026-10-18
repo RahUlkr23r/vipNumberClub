@@ -14,7 +14,9 @@ export const SearchResultsPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>(searchParams.get('category') || 'all');
   const [selectedTotal, setSelectedTotal] = useState<number | null>(() => {
     const t = searchParams.get('total');
-    return t ? parseInt(t, 10) : null;
+    if (!t) return null;
+    const value = parseInt(t, 10);
+    return Number.isNaN(value) ? null : value;
   });
   const [selectedSum, setSelectedSum] = useState<number | null>(null);
   const [sortBy, setSortBy] = useState<'relevance' | 'price_low_to_high' | 'price_high_to_low'>(
@@ -27,10 +29,15 @@ export const SearchResultsPage: React.FC = () => {
   useEffect(() => {
     const q = searchParams.get('q');
     if (q !== null) setSearchTerm(q);
+
     const cat = searchParams.get('category');
     if (cat !== null) setSelectedCategory(cat);
+
     const t = searchParams.get('total');
-    if (t !== null) setSelectedTotal(parseInt(t, 10));
+    if (t !== null) {
+      const total = parseInt(t, 10);
+      setSelectedTotal(Number.isNaN(total) ? null : total);
+    }
   }, [searchParams]);
 
   const togglePrefix = (p: number) => {
@@ -69,11 +76,22 @@ export const SearchResultsPage: React.FC = () => {
     }
 
     if (selectedCategory && selectedCategory !== 'all') {
-      const catLower = selectedCategory.toLowerCase();
+      const catLower = selectedCategory.toLowerCase().replace(/-/g, ' ');
       result = result.filter(n => 
         n.category.toLowerCase().includes(catLower) || 
         n.tags.some(t => t.toLowerCase().includes(catLower))
       );
+    }
+
+    const minBudget = searchParams.get('min_budget');
+    const maxBudget = searchParams.get('max_budget');
+    if (minBudget) {
+      const min = parseInt(minBudget, 10);
+      if (!Number.isNaN(min)) result = result.filter(n => n.priceNumeric >= min);
+    }
+    if (maxBudget) {
+      const max = parseInt(maxBudget, 10);
+      if (!Number.isNaN(max)) result = result.filter(n => n.priceNumeric <= max);
     }
 
     if (selectedTotal !== null) {
@@ -91,279 +109,414 @@ export const SearchResultsPage: React.FC = () => {
     }
 
     return result;
-  }, [searchTerm, selectedPrefixes, selectedCategory, selectedTotal, selectedSum, sortBy]);
+  }, [searchTerm, selectedPrefixes, selectedCategory, selectedTotal, selectedSum, sortBy, searchParams]);
 
   return (
-    <div className="main-content py-4">
-      <div className="container">
-        {/* Search Bar & Filter Modal Trigger */}
-        <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 mb-4">
-          <div className="d-flex align-items-center gap-2 w-100" style={{ maxWidth: '480px' }}>
-            <div className="position-relative flex-grow-1">
+    <div className="search-results-page">
+      {/* 1. TOP SEARCH & FILTER BAR (.familyPack-top) */}
+      <section className="familyPack-top padding-70 pb-0" style={{ paddingTop: '30px' }}>
+        <div className="container">
+          <div className="familyPack-top-in">
+            {/* Direct Search Input */}
+            <div style={{ maxWidth: '600px', margin: '0 auto 20px auto', position: 'relative' }}>
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search Number or Digits..."
+                placeholder="Search number sequence (e.g. 786, 000, 8055)..."
                 className="form-control"
                 style={{
                   background: '#090808',
-                  border: '1px solid #404040',
+                  border: '1px solid #ECAE01',
+                  borderRadius: '30px',
                   color: '#fff',
-                  borderRadius: '10px',
-                  padding: '10px 15px'
+                  padding: '12px 24px',
+                  fontSize: '15px',
+                  boxShadow: '0 0 20px rgba(236, 174, 1, 0.2)'
                 }}
               />
               {searchTerm && (
                 <button
                   type="button"
                   onClick={() => setSearchTerm('')}
-                  className="position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent text-muted"
+                  style={{
+                    position: 'absolute',
+                    right: '18px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    color: '#aaa',
+                    cursor: 'pointer',
+                    fontSize: '16px'
+                  }}
                 >
                   ✕
                 </button>
               )}
             </div>
 
+            {/* Filter Meta Buttons: Reset Filter & Filter Trigger */}
+            <div className="familyPack-top-meta filter-meta" style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="familyPack-top-meta-itm text-decoration-none"
+                style={{ background: 'none', border: '1px solid #404040', color: '#aaa', borderRadius: '20px', padding: '6px 18px', cursor: 'pointer' }}
+              >
+                Reset Filter
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsFilterModalOpen(true)}
+                className="familyPack-top-meta-itm"
+                style={{
+                  background: '#ECAE01',
+                  color: '#000',
+                  fontWeight: 700,
+                  border: 'none',
+                  borderRadius: '20px',
+                  padding: '6px 22px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                <span>Filter</span>
+                <img src="https://www.vipnumbersclub.com/assets/front/img/filter-icon.svg" alt="Filter" style={{ width: '16px', height: '16px', filter: 'brightness(0)' }} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. CATEGORY HORIZONTAL PILLS */}
+      <section style={{ padding: '20px 0 0' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', paddingBottom: '10px', scrollbarWidth: 'none' }}>
             <button
               type="button"
-              onClick={() => setIsFilterModalOpen(true)}
-              className="btn btn_primary d-inline-flex align-items-center gap-2"
+              onClick={() => setSelectedCategory('all')}
               style={{
-                background: '#ECAE01',
-                color: '#000',
-                fontWeight: 'bold',
-                padding: '10px 18px',
-                borderRadius: '10px',
-                border: 'none',
-                whiteSpace: 'nowrap'
+                background: selectedCategory === 'all' ? '#ECAE01' : '#111',
+                color: selectedCategory === 'all' ? '#000' : '#ccc',
+                fontWeight: selectedCategory === 'all' ? 700 : 500,
+                border: '1px solid #404040',
+                borderRadius: '20px',
+                padding: '6px 18px',
+                fontSize: '13px',
+                whiteSpace: 'nowrap',
+                cursor: 'pointer'
               }}
             >
-              <img src="https://www.vipnumbersclub.com/assets/front/img/filtermodal-ic.svg" alt="Filter" style={{ width: '16px' }} />
-              <span>Filter</span>
+              All Numbers ({VIP_NUMBERS.length})
             </button>
-          </div>
-
-          <div className="text-muted text-xs text-center text-md-end">
-            Showing <strong className="text-white">{filteredNumbers.length}</strong> VIP Mobile Numbers
-          </div>
-        </div>
-
-        {/* Quick Category Tabs */}
-        <div className="d-flex gap-2 overflow-auto pb-3 mb-4" style={{ whiteSpace: 'nowrap' }}>
-          <button
-            type="button"
-            onClick={() => setSelectedCategory('all')}
-            className={`btn btn-sm ${selectedCategory === 'all' ? 'btn-warning text-dark font-weight-bold' : 'btn-outline-secondary text-white'}`}
-            style={{ borderRadius: '20px' }}
-          >
-            All Numbers
-          </button>
-          {POPULAR_CATEGORIES.slice(1).map(cat => (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`btn btn-sm ${selectedCategory === cat.id ? 'btn-warning text-dark font-weight-bold' : 'btn-outline-secondary text-white'}`}
-              style={{ borderRadius: '20px' }}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
-
-        {/* Number Boxes Grid */}
-        <div className="innernumberBox">
-          <div className="row g-4">
-            {filteredNumbers.length === 0 ? (
-              <div className="col-12 text-center py-5">
-                <h4 className="text-white">No Numbers Found</h4>
-                <p className="text-muted">Try adjusting your filters or search keywords.</p>
-                <button type="button" onClick={handleReset} className="btn btn_primary mt-2">
-                  Reset All Filters
-                </button>
-              </div>
-            ) : (
-              filteredNumbers.map(number => (
-                <div key={number.id} className="col-xl-4 col-lg-6 col-md-6">
-                  <NumberCard number={number} />
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-
-        {/* ORIGINAL FILTER MODAL POPUP */}
-        {isFilterModalOpen && (
-          <div
-            className="modal fade show d-block"
-            tabIndex={-1}
-            style={{ backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 2100 }}
-            onClick={() => setIsFilterModalOpen(false)}
-          >
-            <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
-              <form
-                className="modal-content filterModal"
-                onSubmit={(e) => { e.preventDefault(); setIsFilterModalOpen(false); }}
-                style={{ background: '#090808', border: '1px solid #404040', borderRadius: '15px' }}
+            {POPULAR_CATEGORIES.slice(1).map(cat => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setSelectedCategory(cat.id)}
+                style={{
+                  background: selectedCategory === cat.id ? '#ECAE01' : '#111',
+                  color: selectedCategory === cat.id ? '#000' : '#ccc',
+                  fontWeight: selectedCategory === cat.id ? 700 : 500,
+                  border: '1px solid #404040',
+                  borderRadius: '20px',
+                  padding: '6px 18px',
+                  fontSize: '13px',
+                  whiteSpace: 'nowrap',
+                  cursor: 'pointer'
+                }}
               >
-                {/* Header */}
-                <div className="filterModal-header d-flex align-items-center justify-content-between p-3 border-bottom border-secondary">
-                  <div className="d-flex align-items-center gap-2 text-white fw-bold">
-                    <img src="https://www.vipnumbersclub.com/assets/front/img/filtermodal-ic.svg" alt="Filter" />
-                    <span>Filter</span>
-                  </div>
-                  <button
-                    type="button"
-                    className="btn-close border-0 bg-transparent text-white"
-                    onClick={() => setIsFilterModalOpen(false)}
-                    aria-label="Close"
-                  >
-                    <img src="https://www.vipnumbersclub.com/assets/front/img/cross-ic.svg" alt="Close" />
-                  </button>
-                </div>
+                {cat.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                {/* Body with Tabs */}
-                <div className="modal-body p-3">
-                  <div className="filter-tabs">
-                    <ul className="nav nav-tabs border-secondary mb-3">
-                      <li className="nav-item">
-                        <button
-                          type="button"
-                          className={`nav-link border-0 ${activeTab === 'startwith' ? 'active bg-transparent text-warning fw-bold border-bottom border-warning' : 'bg-transparent text-white'}`}
-                          onClick={() => setActiveTab('startwith')}
-                        >
-                          Start With
-                        </button>
-                      </li>
-                      <li className="nav-item">
-                        <button
-                          type="button"
-                          className={`nav-link border-0 ${activeTab === 'sortbyprice' ? 'active bg-transparent text-warning fw-bold border-bottom border-warning' : 'bg-transparent text-white'}`}
-                          onClick={() => setActiveTab('sortbyprice')}
-                        >
-                          Sort By Price
-                        </button>
-                      </li>
-                      <li className="nav-item">
-                        <button
-                          type="button"
-                          className={`nav-link border-0 ${activeTab === 'numerology' ? 'active bg-transparent text-warning fw-bold border-bottom border-warning' : 'bg-transparent text-white'}`}
-                          onClick={() => setActiveTab('numerology')}
-                        >
-                          Numerology
-                        </button>
-                      </li>
-                    </ul>
+      {/* 3. NUMBERS GRID (.inner-number-box) */}
+      <section className="inner-number-box padding-70" style={{ paddingTop: '30px' }}>
+        <div className="container">
+          <div style={{ marginBottom: '20px', color: '#888', fontSize: '13px' }}>
+            Showing <strong style={{ color: '#ECAE01' }}>{filteredNumbers.length}</strong> VIP Mobile Numbers
+          </div>
 
-                    {/* Tab 1: Start With */}
-                    {activeTab === 'startwith' && (
-                      <div className="p-3">
-                        <div className="d-flex gap-4">
-                          {[6, 7, 8, 9].map(p => (
-                            <div key={p} className="form-check">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id={`start${p}`}
-                                checked={selectedPrefixes.includes(p)}
-                                onChange={() => togglePrefix(p)}
-                              />
-                              <label className="form-check-label text-white ms-1" htmlFor={`start${p}`}>
-                                {p}
-                              </label>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Tab 2: Sort By Price */}
-                    {activeTab === 'sortbyprice' && (
-                      <div className="p-3">
-                        <div className="form-check mb-2">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="sortRadio"
-                            id="sortHigh"
-                            checked={sortBy === 'price_high_to_low'}
-                            onChange={() => setSortBy('price_high_to_low')}
-                          />
-                          <label className="form-check-label text-white ms-1" htmlFor="sortHigh">
-                            Price High to Low
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="sortRadio"
-                            id="sortLow"
-                            checked={sortBy === 'price_low_to_high'}
-                            onChange={() => setSortBy('price_low_to_high')}
-                          />
-                          <label className="form-check-label text-white ms-1" htmlFor="sortLow">
-                            Price Low to High
-                          </label>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Tab 3: Numerology */}
-                    {activeTab === 'numerology' && (
-                      <div className="p-3 space-y-3">
-                        <div className="form-group mb-3">
-                          <label className="text-white text-xs mb-1 d-block">Compound Sum</label>
-                          <input
-                            type="number"
-                            className="form-control"
-                            style={{ background: '#000', border: '1px solid #404040', color: '#fff' }}
-                            placeholder="e.g. 48, 72"
-                            value={selectedSum || ''}
-                            onChange={(e) => setSelectedSum(e.target.value ? parseInt(e.target.value, 10) : null)}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label className="text-white text-xs mb-1 d-block">Root Total (1-9)</label>
-                          <input
-                            type="number"
-                            min="1"
-                            max="9"
-                            className="form-control"
-                            style={{ background: '#000', border: '1px solid #404040', color: '#fff' }}
-                            placeholder="e.g. 1, 9"
-                            value={selectedTotal || ''}
-                            onChange={(e) => setSelectedTotal(e.target.value ? parseInt(e.target.value, 10) : null)}
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Footer with Reset and Apply */}
-                <div className="filterModal-footer d-flex justify-content-between p-3 border-top border-secondary">
+          <div className="innernumberBox">
+            <div className="row g-4">
+              {filteredNumbers.length === 0 ? (
+                <div className="col-12 text-center py-5">
+                  <h4 style={{ color: '#fff' }}>No Numbers Found</h4>
+                  <p style={{ color: '#888' }}>Try adjusting your search sequence or resetting your filters.</p>
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="btn btn-outline-secondary text-white btn-sm px-4"
+                    className="btn btn_primary"
+                    style={{ marginTop: '10px' }}
                   >
-                    Reset
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn btn_primary btn-sm px-4"
-                    style={{ background: '#ECAE01', color: '#000', fontWeight: 'bold' }}
-                  >
-                    Apply
+                    Reset All Filters
                   </button>
                 </div>
-              </form>
+              ) : (
+                filteredNumbers.map(number => (
+                  <div key={number.id} className="col-xl-4 col-lg-6 col-md-6">
+                    <NumberCard number={number} />
+                  </div>
+                ))
+              )}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      </section>
+
+      {/* 4. AUTHENTIC FILTER MODAL (#filtermodal) */}
+      {isFilterModalOpen && (
+        <div
+          className="modal fade show"
+          id="filtermodal"
+          tabIndex={-1}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(0,0,0,0.85)',
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            padding: '15px'
+          }}
+        >
+          <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: '480px', width: '100%', margin: 'auto' }}>
+            <div
+              className="modal-content filterModal"
+              style={{
+                background: '#090808',
+                border: '1px solid #ECAE01',
+                borderRadius: '20px',
+                boxShadow: '0px 0px 34px rgba(236, 174, 1, 0.28)'
+              }}
+            >
+              <div
+                className="filterModal-header"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '20px 25px',
+                  borderBottom: '1px solid #222'
+                }}
+              >
+                <div className="filterModal-header-title" style={{ color: '#fff', fontSize: '20px', fontWeight: 700 }}>
+                  Filter
+                </div>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setIsFilterModalOpen(false)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', opacity: 1 }}
+                >
+                  <img src="https://www.vipnumbersclub.com/assets/front/img/cross-ic.svg" alt="Close" />
+                </button>
+              </div>
+
+              <div className="modal-body" style={{ padding: '25px' }}>
+                {/* Tabs: Start With, Sort By Price, Numerology */}
+                <div className="tabing-sec" style={{ marginBottom: '20px' }}>
+                  <ul className="nav nav-tabs" style={{ display: 'flex', gap: '8px', borderBottom: '1px solid #333' }}>
+                    <li className="nav-item">
+                      <button
+                        className={`nav-link ${activeTab === 'startwith' ? 'active' : ''}`}
+                        type="button"
+                        onClick={() => setActiveTab('startwith')}
+                        style={{
+                          background: activeTab === 'startwith' ? '#ECAE01' : 'transparent',
+                          color: activeTab === 'startwith' ? '#000' : '#fff',
+                          fontWeight: 600,
+                          borderRadius: '10px 10px 0 0',
+                          border: 'none',
+                          padding: '8px 16px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Start With
+                      </button>
+                    </li>
+                    <li className="nav-item">
+                      <button
+                        className={`nav-link ${activeTab === 'sortbyprice' ? 'active' : ''}`}
+                        type="button"
+                        onClick={() => setActiveTab('sortbyprice')}
+                        style={{
+                          background: activeTab === 'sortbyprice' ? '#ECAE01' : 'transparent',
+                          color: activeTab === 'sortbyprice' ? '#000' : '#fff',
+                          fontWeight: 600,
+                          borderRadius: '10px 10px 0 0',
+                          border: 'none',
+                          padding: '8px 16px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Sort By Price
+                      </button>
+                    </li>
+                    <li className="nav-item">
+                      <button
+                        className={`nav-link ${activeTab === 'numerology' ? 'active' : ''}`}
+                        type="button"
+                        onClick={() => setActiveTab('numerology')}
+                        style={{
+                          background: activeTab === 'numerology' ? '#ECAE01' : 'transparent',
+                          color: activeTab === 'numerology' ? '#000' : '#fff',
+                          fontWeight: 600,
+                          borderRadius: '10px 10px 0 0',
+                          border: 'none',
+                          padding: '8px 16px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Numerology
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Tab 1: Start With Digits */}
+                {activeTab === 'startwith' && (
+                  <div>
+                    <p style={{ color: '#888', fontSize: '13px', marginBottom: '15px' }}>
+                      Filter by starting digit (6, 7, 8, 9):
+                    </p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px' }}>
+                      {[6, 7, 8, 9].map(p => {
+                        const isSelected = selectedPrefixes.includes(p);
+                        return (
+                          <button
+                            key={p}
+                            type="button"
+                            onClick={() => togglePrefix(p)}
+                            style={{
+                              background: isSelected ? '#ECAE01' : '#111',
+                              color: isSelected ? '#000' : '#fff',
+                              border: isSelected ? '1px solid #ECAE01' : '1px solid #333',
+                              borderRadius: '10px',
+                              padding: '12px 0',
+                              fontSize: '18px',
+                              fontWeight: 800,
+                              cursor: 'pointer'
+                            }}
+                          >
+                            {p}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Tab 2: Sort By Price */}
+                {activeTab === 'sortbyprice' && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {[
+                      { key: 'relevance', label: 'Default / Relevance' },
+                      { key: 'price_low_to_high', label: 'Price: Low to High' },
+                      { key: 'price_high_to_low', label: 'Price: High to Low' }
+                    ].map(opt => (
+                      <button
+                        key={opt.key}
+                        type="button"
+                        onClick={() => setSortBy(opt.key as any)}
+                        style={{
+                          background: sortBy === opt.key ? 'rgba(236,174,1,0.15)' : '#111',
+                          color: sortBy === opt.key ? '#ECAE01' : '#ccc',
+                          border: sortBy === opt.key ? '1px solid #ECAE01' : '1px solid #333',
+                          borderRadius: '12px',
+                          padding: '12px 18px',
+                          textAlign: 'left',
+                          fontSize: '14px',
+                          fontWeight: 600,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Tab 3: Numerology Root Sum */}
+                {activeTab === 'numerology' && (
+                  <div>
+                    <p style={{ color: '#888', fontSize: '13px', marginBottom: '15px' }}>
+                      Select single-digit destiny root total (1 - 9):
+                    </p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px' }}>
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(t => {
+                        const isSelected = selectedTotal === t;
+                        return (
+                          <button
+                            key={t}
+                            type="button"
+                            onClick={() => setSelectedTotal(isSelected ? null : t)}
+                            style={{
+                              background: isSelected ? '#ECAE01' : '#111',
+                              color: isSelected ? '#000' : '#fff',
+                              border: isSelected ? '1px solid #ECAE01' : '1px solid #333',
+                              borderRadius: '10px',
+                              padding: '10px 0',
+                              fontSize: '16px',
+                              fontWeight: 800,
+                              cursor: 'pointer'
+                            }}
+                          >
+                            {t}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Filter Modal Footer */}
+              <div
+                className="filterModal-footer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '16px 25px',
+                  borderTop: '1px solid #222',
+                  background: '#060606',
+                  borderRadius: '0 0 20px 20px'
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#888',
+                    cursor: 'pointer',
+                    fontSize: '13px'
+                  }}
+                >
+                  Clear All
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsFilterModalOpen(false)}
+                  className="btn btn_primary"
+                  style={{ padding: '8px 24px' }}
+                >
+                  Apply Filters
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

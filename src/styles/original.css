@@ -4731,3 +4731,233 @@ body {
   font-size: 10px;
 }
 
+
+/* ========================================================================
+   HORIZONTAL CAROUSEL & SWIPER EMULATION FOR REACT
+   Matches Owl Carousel 3.28 / 1.28 item layout on https://www.vipnumbersclub.com
+   ======================================================================== */
+
+.number-sld,
+.trending-cat-sld,
+.numerical-sld,
+.budget-sld,
+.pack-sld,
+.vipcat-in,
+.ads-sec-in,
+.video-slider,
+.review-slider {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.number-sld::-webkit-scrollbar,
+.trending-cat-sld::-webkit-scrollbar,
+.numerical-sld::-webkit-scrollbar,
+.budget-sld::-webkit-scrollbar,
+.pack-sld::-webkit-scrollbar,
+.vipcat-in::-webkit-scrollbar,
+.ads-sec-in::-webkit-scrollbar,
+.video-slider::-webkit-scrollbar,
+.review-slider::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Number carousel items: 3.28 items on desktop, 1.28 on mobile */
+.number-sld {
+  padding: 15px 0 15px 15px !important;
+  gap: 15px !important;
+}
+
+.number-sld > .item {
+  flex: 0 0 310px !important;
+  width: 310px !important;
+  max-width: 310px !important;
+}
+
+@media (max-width: 768px) {
+  .number-sld > .item {
+    flex: 0 0 78% !important;
+    width: 78% !important;
+    max-width: 78% !important;
+  }
+}
+
+/* View More Card at end of slider */
+.number-sld-itm.viewmore {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 250px !important;
+  height: 100% !important;
+  text-align: center !important;
+  background: #101010 !important;
+  border: 1px dashed #ECAE01 !important;
+  border-radius: 15px !important;
+}
+
+.viewmore-link {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  text-decoration: none !important;
+  padding: 30px !important;
+}
+
+.viewmore-ic {
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50% !important;
+  background: #ECAE01 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 15px !important;
+}
+
+.viewmore-ic img {
+  width: 20px !important;
+  height: 20px !important;
+  filter: brightness(0) !important;
+}
+
+.viewmore-in h4 {
+  color: #fff !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  margin: 0 !important;
+}
+
+/* Trending Categories slider: 3.2 items on desktop, 1.2 on mobile */
+.trending-cat-sld {
+  padding: 15px 0 15px 15px !important;
+  gap: 15px !important;
+}
+
+.trending-cat-sld > .item {
+  flex: 0 0 320px !important;
+  width: 320px !important;
+  max-width: 320px !important;
+}
+
+@media (max-width: 768px) {
+  .trending-cat-sld > .item {
+    flex: 0 0 80% !important;
+    width: 80% !important;
+    max-width: 80% !important;
+  }
+}
+
+/* Numerical slider: 5.1 items on desktop, 3.2 on mobile */
+.numerical-sld {
+  padding: 15px 0 15px 15px !important;
+  gap: 15px !important;
+}
+
+.numerical-sld > .item {
+  flex: 0 0 200px !important;
+  width: 200px !important;
+  max-width: 200px !important;
+}
+
+@media (max-width: 768px) {
+  .numerical-sld > .item {
+    flex: 0 0 32% !important;
+    width: 32% !important;
+    min-width: 130px !important;
+  }
+}
+
+/* Budget slider & Pack slider */
+.budget-sld,
+.pack-sld {
+  padding: 15px 0 15px 15px !important;
+  gap: 15px !important;
+}
+
+.budget-sld > .item,
+.pack-sld > .item {
+  flex: 0 0 180px !important;
+  width: 180px !important;
+  max-width: 180px !important;
+}
+
+@media (max-width: 768px) {
+  .budget-sld > .item,
+  .pack-sld > .item {
+    flex: 0 0 160px !important;
+    width: 160px !important;
+  }
+}
+
+/* Video slider: 2 items centered, ~460px each */
+.video-slider {
+  padding: 15px 0 15px 15px !important;
+  gap: 20px !important;
+}
+
+.video-slider > .item {
+  flex: 0 0 460px !important;
+  width: 460px !important;
+  max-width: 460px !important;
+}
+
+@media (max-width: 768px) {
+  .video-slider > .item {
+    flex: 0 0 85% !important;
+    width: 85% !important;
+  }
+}
+
+/* Review / Featured on Top Platforms slider */
+.review-slider {
+  padding: 15px 0 15px 15px !important;
+  gap: 20px !important;
+  justify-content: flex-start !important;
+}
+
+.review-slider > .item {
+  flex: 0 0 340px !important;
+  width: 340px !important;
+  max-width: 340px !important;
+}
+
+@media (max-width: 768px) {
+  .review-slider > .item {
+    flex: 0 0 85% !important;
+    width: 85% !important;
+  }
+}
+
+/* Ads banners slider */
+.ads-sec-in {
+  padding: 0 !important;
+  gap: 20px !important;
+}
+
+.ads-sec-in > .item {
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Top Categories vipcat slider */
+.vipcat-in {
+  padding: 0 15px !important;
+  gap: 15px !important;
+}
+
+.vipcat-in > .item,
+.vipcat-in > a {
+  flex: 0 0 auto !important;
+}

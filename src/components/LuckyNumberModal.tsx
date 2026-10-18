@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,12 +8,22 @@ export const LuckyNumberModal: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<'date' | 'calculator'>('date');
   const [selectedRadio, setSelectedRadio] = useState<number | null>(null);
-
-  // Custom DOB calculation states
   const [day, setDay] = useState('15');
   const [month, setMonth] = useState('8');
   const [year, setYear] = useState('1995');
   const [calculatedTotal, setCalculatedTotal] = useState<number | null>(null);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!isLuckyCalcModalOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsLuckyCalcModalOpen(false);
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isLuckyCalcModalOpen, setIsLuckyCalcModalOpen]);
 
   if (!isLuckyCalcModalOpen) return null;
 
@@ -29,6 +39,46 @@ export const LuckyNumberModal: React.FC = () => {
     { value: 9, label: '9th / 18th / 27th' },
   ];
 
+  const reduceToSingleDigit = (num: number): number => {
+    let total = Math.abs(num);
+    while (total > 9) {
+      total = total
+        .toString()
+        .split('')
+        .reduce((acc, digit) => acc + parseInt(digit, 10), 0);
+    }
+    return total || 1;
+  };
+
+  const validateDob = () => {
+    const d = Number(day);
+    const m = Number(month);
+    const y = Number(year);
+
+    if (!Number.isFinite(d) || !Number.isFinite(m) || !Number.isFinite(y)) {
+      return 'Please enter a valid date of birth.';
+    }
+
+    if (d < 1 || d > 31) {
+      return 'Day must be between 1 and 31.';
+    }
+
+    if (m < 1 || m > 12) {
+      return 'Month must be between 1 and 12.';
+    }
+
+    if (y < 1900 || y > 2100) {
+      return 'Year must be between 1900 and 2100.';
+    }
+
+    const lastDayOfMonth = new Date(y, m, 0).getDate();
+    if (d > lastDayOfMonth) {
+      return `The selected month has only ${lastDayOfMonth} days.`;
+    }
+
+    return '';
+  };
+
   const handleSelectDate = (val: number) => {
     setSelectedRadio(val);
     setIsLuckyCalcModalOpen(false);
@@ -36,29 +86,28 @@ export const LuckyNumberModal: React.FC = () => {
   };
 
   const calculateNumerology = () => {
-    const d = parseInt(day, 10) || 1;
-    const m = parseInt(month, 10) || 1;
-    const y = parseInt(year, 10) || 2000;
+    const validationError = validateDob();
+    if (validationError) {
+      setError(validationError);
+      setCalculatedTotal(null);
+      return;
+    }
 
-    const reduceNum = (num: number): number => {
-      let sum = num;
-      while (sum > 9) {
-        sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit, 10), 0);
-      }
-      return sum || 1;
-    };
-
+    const d = Number(day);
+    const m = Number(month);
+    const y = Number(year);
     const digitsStr = `${d}${m}${y}`;
     const initialSum = digitsStr.split('').reduce((acc, digit) => acc + parseInt(digit, 10), 0);
-    const destinyNumber = reduceNum(initialSum);
+    const destinyNumber = reduceToSingleDigit(initialSum);
+
+    setError('');
     setCalculatedTotal(destinyNumber);
   };
 
   const handleBrowseMatching = () => {
-    if (calculatedTotal) {
-      setIsLuckyCalcModalOpen(false);
-      navigate(`/search-results?total=${calculatedTotal}`);
-    }
+    if (calculatedTotal === null) return;
+    setIsLuckyCalcModalOpen(false);
+    navigate(`/search-results?total=${calculatedTotal}`);
   };
 
   return (
@@ -119,7 +168,6 @@ export const LuckyNumberModal: React.FC = () => {
               <img src="https://www.vipnumbersclub.com/assets/front/img/cross-ic.svg" alt="Close" />
             </button>
 
-            {/* Modal Heading & Tab Switcher */}
             <div className="modal-popup modal-selectradio">
               <div className="modal_header1" style={{ textAlign: 'center', marginTop: '10px' }}>
                 <h4 style={{ color: '#fff', fontSize: '24px', fontWeight: 600, margin: 0 }}>
@@ -210,6 +258,7 @@ export const LuckyNumberModal: React.FC = () => {
                         type="number"
                         min="1"
                         max="31"
+                        inputMode="numeric"
                         value={day}
                         onChange={(e) => setDay(e.target.value)}
                         style={{
@@ -230,6 +279,7 @@ export const LuckyNumberModal: React.FC = () => {
                         type="number"
                         min="1"
                         max="12"
+                        inputMode="numeric"
                         value={month}
                         onChange={(e) => setMonth(e.target.value)}
                         style={{
@@ -250,6 +300,7 @@ export const LuckyNumberModal: React.FC = () => {
                         type="number"
                         min="1940"
                         max="2030"
+                        inputMode="numeric"
                         value={year}
                         onChange={(e) => setYear(e.target.value)}
                         style={{
@@ -265,6 +316,12 @@ export const LuckyNumberModal: React.FC = () => {
                       />
                     </div>
                   </div>
+
+                  {error && (
+                    <div style={{ marginBottom: '16px', color: '#ff8f8f', fontSize: '12px', textAlign: 'left' }}>
+                      {error}
+                    </div>
+                  )}
 
                   <button
                     type="button"
