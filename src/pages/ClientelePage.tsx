@@ -1,10 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck } from 'lucide-react';
+import { TopHeader } from '../components/TopHeader';
 
 export const ClientelePage: React.FC = () => {
   return (
-    <div className="clientele-page">
+    <div className="clientele-page" style={{ minHeight: '85vh', backgroundColor: '#000' }}>
+      {/* Authentic Top Header */}
+      <TopHeader title="Our Esteemed Clientele" />
+
       {/* Original Page Center Icon */}
       <section className="page-center-ic padding-70">
         <div className="container">

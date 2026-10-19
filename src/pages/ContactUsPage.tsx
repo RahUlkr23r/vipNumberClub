@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SITE_INFO } from '../data/siteInfo';
 import { useApp } from '../context/AppContext';
 import { Send, CheckCircle2, MapPin, Building2 } from 'lucide-react';
+import { TopHeader } from '../components/TopHeader';
 
 export const ContactUsPage: React.FC = () => {
   const { showToast } = useApp();
@@ -34,7 +35,10 @@ Hello Ranvijay, I would like to get in touch regarding VIP numbers.`;
   };
 
   return (
-    <div className="contact-us-page">
+    <div className="contact-us-page" style={{ minHeight: '85vh', backgroundColor: '#000' }}>
+      {/* Authentic Top Header */}
+      <TopHeader title="Contact VIP Numbers Club" />
+
       {/* Original Page Center Icon */}
       <section className="page-center-ic padding-70">
         <div className="container">

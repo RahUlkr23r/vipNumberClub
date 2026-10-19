@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FAQS } from '../data/faqs';
 import { Link } from 'react-router-dom';
+import { TopHeader } from '../components/TopHeader';
 
 export const GeneralDoubtsPage: React.FC = () => {
   const [openIds, setOpenIds] = useState<number[]>([1]);
@@ -19,7 +20,10 @@ export const GeneralDoubtsPage: React.FC = () => {
   };
 
   return (
-    <div className="general-doubts-page">
+    <div className="general-doubts-page" style={{ minHeight: '85vh', backgroundColor: '#000' }}>
+      {/* Authentic Top Header */}
+      <TopHeader title="Frequently Asked Questions About VIP Numbers" />
+
       {/* Original Page Center Icon */}
       <section className="page-center-ic padding-70">
         <div className="container">

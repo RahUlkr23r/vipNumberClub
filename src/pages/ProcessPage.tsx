@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SITE_INFO } from '../data/siteInfo';
+import { TopHeader } from '../components/TopHeader';
 
 export const ProcessPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'hindi' | 'english'>('hindi');
 
   return (
-    <div className="process-page">
+    <div className="process-page" style={{ minHeight: '85vh', backgroundColor: '#000' }}>
+      {/* Authentic Top Header */}
+      <TopHeader title="VIP Number Purchase Process" />
+
       {/* Original Page Center Icon */}
       <section className="page-center-ic padding-70">
         <div className="container">

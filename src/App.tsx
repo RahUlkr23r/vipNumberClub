@@ -16,15 +16,23 @@ import { ToastContainer } from './components/ToastContainer';
 import { HomePage } from './pages/HomePage';
 import { SearchResultsPage } from './pages/SearchResultsPage';
 import { NumerologySearchPage } from './pages/NumerologySearchPage';
-import { AboutUsPage } from './pages/AboutUsPage';
-import { ContactUsPage } from './pages/ContactUsPage';
-import { ProcessPage } from './pages/ProcessPage';
-import { GeneralDoubtsPage } from './pages/GeneralDoubtsPage';
-import { RefundPolicyPage } from './pages/RefundPolicyPage';
-import { PrepaidPostpaidPage } from './pages/PrepaidPostpaidPage';
-import { HomeDeliveryPage } from './pages/HomeDeliveryPage';
-import { ServicesPage } from './pages/ServicesPage';
+import { SuperHighDiscountedSalesPage } from './pages/SuperHighDiscountedSalesPage';
+import { LoginPage } from './pages/LoginPage';
+import { ResellerPanelPage } from './pages/ResellerPanelPage';
 import { ClientelePage } from './pages/ClientelePage';
+import { PreBookingPage } from './pages/PreBookingPage';
+import { HighDiscountPreBookingLotPage } from './pages/HighDiscountPreBookingLotPage';
+import { HomeDeliveryPage } from './pages/HomeDeliveryPage';
+import { PressNewsArticlePage } from './pages/PressNewsArticlePage';
+import { ProcessPage } from './pages/ProcessPage';
+import { SocialMediaPage } from './pages/SocialMediaPage';
+import { ServicesPage } from './pages/ServicesPage';
+import { ContactUsPage } from './pages/ContactUsPage';
+import { AboutUsPage } from './pages/AboutUsPage';
+import { RefundPolicyPage } from './pages/RefundPolicyPage';
+import { GeneralDoubtsPage } from './pages/GeneralDoubtsPage';
+import { CartPage } from './pages/CartPage';
+import { PrepaidPostpaidPage } from './pages/PrepaidPostpaidPage';
 
 // Scroll to top helper on route navigation
 const ScrollToTop: React.FC = () => {
@@ -47,20 +55,37 @@ export const App: React.FC = () => {
           {/* Main App Content */}
           <main className="flex-1">
             <Routes>
+              {/* Home & Search */}
               <Route path="/" element={<HomePage />} />
               <Route path="/search-results" element={<SearchResultsPage />} />
               <Route path="/search-front" element={<SearchResultsPage />} />
               <Route path="/numerology-search" element={<NumerologySearchPage />} />
-              <Route path="/about-us" element={<AboutUsPage />} />
-              <Route path="/contact-us" element={<ContactUsPage />} />
+
+              {/* Side Drawer Pages (17 Original Elements) */}
+              <Route path="/super-high-discounted-sales" element={<SuperHighDiscountedSalesPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/login-otp" element={<LoginPage />} />
+              <Route path="/register" element={<LoginPage />} />
+              <Route path="/forgot-password" element={<LoginPage />} />
+              <Route path="/reseller-panel" element={<ResellerPanelPage />} />
+              <Route path="/clientele" element={<ClientelePage />} />
+              <Route path="/pre-booking" element={<PreBookingPage />} />
+              <Route path="/high-discount-pre-booking-lot" element={<HighDiscountPreBookingLotPage />} />
+              <Route path="/home-delivery" element={<HomeDeliveryPage />} />
+              <Route path="/press-news-article" element={<PressNewsArticlePage />} />
               <Route path="/process" element={<ProcessPage />} />
-              <Route path="/general-doubts" element={<GeneralDoubtsPage />} />
+              <Route path="/social-media" element={<SocialMediaPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/contact-us" element={<ContactUsPage />} />
+              <Route path="/about-us" element={<AboutUsPage />} />
               <Route path="/refund-policy" element={<RefundPolicyPage />} />
               <Route path="/page/refund-policy" element={<RefundPolicyPage />} />
+              <Route path="/general-doubts" element={<GeneralDoubtsPage />} />
+              <Route path="/cart" element={<CartPage />} />
+
+              {/* Additional Guides */}
               <Route path="/prepaid-postpaid" element={<PrepaidPostpaidPage />} />
-              <Route path="/home-delivery" element={<HomeDeliveryPage />} />
-              <Route path="/services" element={<ServicesPage />} />
-              <Route path="/clientele" element={<ClientelePage />} />
+
               {/* Fallback to home */}
               <Route path="*" element={<HomePage />} />
             </Routes>

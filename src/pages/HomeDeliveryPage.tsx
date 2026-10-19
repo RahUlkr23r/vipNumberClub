@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { TopHeader } from '../components/TopHeader';
 
 export const HomeDeliveryPage: React.FC = () => {
   const navigate = useNavigate();
@@ -24,7 +25,10 @@ export const HomeDeliveryPage: React.FC = () => {
   };
 
   return (
-    <div className="home-delivery-page">
+    <div className="home-delivery-page" style={{ minHeight: '85vh', backgroundColor: '#000' }}>
+      {/* Authentic Top Header */}
+      <TopHeader />
+
       {/* Original Center Icon & Headings */}
       <section className="page-center-ic padding-70">
         <div className="container">
