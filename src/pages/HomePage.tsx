@@ -226,25 +226,27 @@ const CategoryCarousel = ({
   <div>
     <SectionHeading eyebrow={eyebrow} title={title} to="/search-results" cta="Browse All" />
 
-    <Carousel ariaLabel={title} itemWidth={260} autoPlay autoPlayInterval={5000}>
+    <Carousel ariaLabel={title} itemWidth={300} autoPlay autoPlayInterval={5000}>
       {categories.map((cat) => (
         <Link
           key={cat.q}
           to={`/search-results?category=${encodeURIComponent(cat.q)}`}
-          className="vip-cat-card w-[240px] sm:w-[260px]"
+          className="vip-cat-card w-[260px] sm:w-[290px]"
           aria-label={`Browse ${cat.title}`}
         >
           <TiltCard maxTilt={5}>
-            <h3 className="vip-cat-title">{cat.title}</h3>
-            <div className="vip-cat-number">
-              <span className="text-[#ECAE01]">{cat.prefix}</span>
-              {cat.num.slice(cat.prefix.length)}
+            <div className="vip-cat-card-body">
+              <h3 className="vip-cat-title">{cat.title}</h3>
+              <div className="vip-cat-number">
+                <span className="text-[#ECAE01]">{cat.prefix}</span>
+                {cat.num.slice(cat.prefix.length)}
+              </div>
+              <span className="vip-cat-arrow">
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </span>
             </div>
-            <span className="vip-cat-arrow">
-              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </span>
           </TiltCard>
         </Link>
       ))}

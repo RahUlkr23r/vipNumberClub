@@ -178,37 +178,110 @@
   @apply text-sm font-bold tracking-[0.2em];
 }
 
-/* ---- Category card ---- */
+/* ---- Category card (fixed — no text clipping) ---- */
 .vip-cat-card {
-  @apply block relative overflow-hidden rounded-2xl border border-white/5 bg-gradient-to-br from-[#141210] to-[#0a0908] p-5 transition-all duration-300;
+  @apply flex flex-col relative rounded-2xl border border-white/5 bg-gradient-to-br from-[#141210] to-[#0a0908] transition-all duration-300;
+  /* NO overflow: hidden — allows TiltCard content to breathe */
+  min-height: 185px;
+  height: 100%;
+}
+
+/* Glow uses its own pseudo — inherits border-radius, fades before corners */
+.vip-cat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 0%, rgba(236, 174, 1, 0.12) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.vip-cat-card:hover::before {
+  opacity: 1;
 }
 .vip-cat-card:hover {
   @apply border-[#ECAE01]/50 -translate-y-1;
   box-shadow: 0 12px 40px -12px rgba(236, 174, 1, 0.35);
 }
-.vip-cat-card::before {
-  content: '';
-  @apply absolute inset-0 opacity-0 pointer-events-none;
-  background: radial-gradient(circle at 50% 0%, rgba(236, 174, 1, 0.12) 0%, transparent 60%);
-  transition: opacity 0.3s ease;
+
+/* TiltCard is now a flex column that fills the card */
+.vip-cat-card > .tilt-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  /* Reset TiltCard's global 100% height on children */
 }
-.vip-cat-card:hover::before {
-  @apply opacity-100;
+.vip-cat-card > .tilt-card > * {
+  height: auto;
 }
+
+.vip-cat-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem;
+}
+@media (min-width: 640px) {
+  .vip-cat-card-body {
+    padding: 1.25rem;
+  }
+}
+
+/* Title: wraps up to 2 lines, min-height reserves consistent space */
 .vip-cat-title {
-  @apply font-serif text-lg font-medium text-white capitalize mb-2;
+  @apply font-serif text-base sm:text-lg font-medium text-white capitalize;
+  line-height: 1.3;
+  margin: 0 0 0.5rem;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6em;
 }
+
+/* Number: smaller, no extra tracking, breaks only if truly necessary */
 .vip-cat-number {
-  @apply text-xl font-mono font-bold tracking-wider mb-4;
+  @apply font-mono font-bold;
+  font-size: 15px;
+  line-height: 1.35;
   color: #e8e3d8;
+  letter-spacing: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  margin-bottom: 0.75rem;
+  flex: 1;
 }
+@media (min-width: 640px) {
+  .vip-cat-number {
+    font-size: 16px;
+  }
+}
+
+/* Arrow pins to bottom-right */
 .vip-cat-arrow {
   @apply inline-flex items-center justify-center w-8 h-8 rounded-full border border-[#ECAE01]/40 text-[#ECAE01] transition-all;
+  flex-shrink: 0;
+  align-self: flex-end;
 }
 .vip-cat-card:hover .vip-cat-arrow {
   @apply bg-[#ECAE01] text-black border-[#ECAE01];
   transform: translateX(4px);
 }
+
+@media (hover: none) {
+  .vip-cat-card:active {
+    border-color: rgba(236, 174, 1, 0.5);
+    transform: scale(0.98);
+  }
+}
+
 
 /* ---- Pill buttons ---- */
 .vip-pill {
